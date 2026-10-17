@@ -1,7 +1,9 @@
+import { InteractiveNetworkGraph } from "./InteractiveNetworkGraph";
+
 export function Hero() {
   return (
     <section id="topo" className="relative isolate overflow-hidden pt-36 pb-20 sm:pt-44 sm:pb-28">
-      {/* Fundo: grade de terminal + luzes neon (Ciano, Verde Lima e Laranja) misturadas no centro da tela (blur 120px, opacidade 0.2) */}
+      {/* Fundo: grade de terminal + luzes neon (Ciano, Verde Lima e Laranja) misturadas no centro da tela */}
       <div aria-hidden="true" className="bg-grid absolute inset-0 -z-20 [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]" />
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute left-1/2 top-1/3 size-[30rem] -translate-x-[75%] -translate-y-1/2 rounded-full bg-neon-cyan opacity-20 blur-[120px]" />
@@ -9,7 +11,10 @@ export function Hero() {
         <div className="absolute left-1/2 top-1/4 size-[34rem] -translate-x-1/2 rounded-full bg-brand opacity-20 blur-[120px]" />
       </div>
 
-      <div className="mx-auto max-w-5xl px-5 text-center sm:px-8">
+      {/* Malha interativa de grafos (laranja e branco) reativa ao mouse */}
+      <InteractiveNetworkGraph />
+
+      <div className="relative z-10 mx-auto max-w-5xl px-5 text-center sm:px-8">
         <p className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-4 py-1.5 font-mono text-xs tracking-wide text-brand-light">
           <span className="live-dot size-1.5 rounded-full bg-brand" aria-hidden="true" />
           Rastro ao vivo na Solana · Pix → cripto
