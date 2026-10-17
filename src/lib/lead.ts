@@ -10,19 +10,13 @@ export const LIMITS = {
   company: { min: 2, max: 160 },
 } as const;
 
-/** Provedores de e-mail pessoal: a landing só aceita e-mail corporativo. */
-export const FREE_EMAIL_DOMAINS = [
-  "gmail", "googlemail", "hotmail", "outlook", "live", "msn", "yahoo", "ymail", "icloud", "me", "mac",
-  "aol", "bol", "uol", "terra", "ig", "proton", "protonmail", "pm", "gmx", "zoho", "yandex", "mail", "tutanota",
-] as const;
-
 /**
- * Padrão HTML (atributo `pattern`, casamento completo implícito) que recusa formato inválido
- * e domínios de e-mail pessoal: nome@gmail.com, nome@hotmail.com.br etc.
+ * Padrão HTML (atributo `pattern`) para e-mails válidos.
+ * Aceita e-mails corporativos e provedores como Gmail, Outlook, etc.
  */
-export const CORPORATE_EMAIL_PATTERN = `[^@\\s]+@(?!(?:${FREE_EMAIL_DOMAINS.join("|")})\\.)[^@\\s]+\\.[^@\\s]{2,}`;
+export const EMAIL_PATTERN = `[^@\\s]+@[^@\\s]+\\.[^@\\s]{2,}`;
 
-const corporateEmailRe = new RegExp(`^${CORPORATE_EMAIL_PATTERN}$`, "i");
+const emailRe = new RegExp(`^${EMAIL_PATTERN}$`, "i");
 
 export function validateLead(raw: Partial<Record<LeadField, unknown>>): { values: LeadValues; errors: LeadErrors } {
   const values: LeadValues = {
@@ -35,8 +29,8 @@ export function validateLead(raw: Partial<Record<LeadField, unknown>>): { values
   if (values.name.length < LIMITS.name.min || values.name.length > LIMITS.name.max) {
     errors.name = "Informe seu nome completo.";
   }
-  if (!values.email || values.email.length > LIMITS.email.max || !corporateEmailRe.test(values.email)) {
-    errors.email = "Use seu e-mail corporativo (ex.: nome@empresa.com.br).";
+  if (!values.email || values.email.length > LIMITS.email.max || !emailRe.test(values.email)) {
+    errors.email = "Informe um e-mail válido (ex.: seu@gmail.com ou corporativo).";
   }
   if (values.company.length < LIMITS.company.min || values.company.length > LIMITS.company.max) {
     errors.company = "Informe o nome da empresa.";

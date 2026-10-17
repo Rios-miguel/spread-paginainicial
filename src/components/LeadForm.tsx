@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect, useRef } from "react";
 import { submitLead, type LeadState } from "@/app/actions";
-import { CORPORATE_EMAIL_PATTERN, LIMITS, type LeadField } from "@/lib/lead";
+import { EMAIL_PATTERN, LIMITS, type LeadField } from "@/lib/lead";
 
 const initialState: LeadState = { status: "idle" };
 
@@ -29,14 +29,13 @@ const fields: FieldDef[] = [
   },
   {
     name: "email",
-    label: "E-mail corporativo",
+    label: "E-mail",
     type: "email",
     autoComplete: "email",
-    placeholder: "nome@empresa.com.br",
-    hint: "Não aceitamos Gmail, Hotmail e outros e-mails pessoais.",
-    clientError: "Use seu e-mail corporativo (ex.: nome@empresa.com.br).",
+    placeholder: "seu@email.com ou seu@gmail.com",
+    clientError: "Informe um e-mail válido.",
     extra: {
-      pattern: CORPORATE_EMAIL_PATTERN,
+      pattern: EMAIL_PATTERN,
       maxLength: LIMITS.email.max,
       autoCapitalize: "off",
       autoCorrect: "off",
