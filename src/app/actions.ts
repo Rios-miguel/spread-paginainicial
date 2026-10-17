@@ -30,12 +30,12 @@ export async function submitLead(_prev: LeadState, formData: FormData): Promise<
 
   const supabase = getSupabase();
   if (!supabase) {
-    if (process.env.NODE_ENV !== "production") {
-      console.info("[lead] Supabase não configurado (SUPABASE_URL / SUPABASE_ANON_KEY). Lead recebido:", values);
-      return { status: "success" };
-    }
-    console.error("[lead] Supabase não configurado em produção.");
-    return { status: "error", message: "Não conseguimos enviar agora. Tente novamente em instantes.", values };
+    console.error("[lead] Supabase não configurado. Verifique SUPABASE_URL e SUPABASE_ANON_KEY nas variáveis de ambiente.");
+    return {
+      status: "error",
+      message: "Configuração do banco pendente. Adicione SUPABASE_URL e SUPABASE_ANON_KEY na Vercel e faça um Redeploy.",
+      values,
+    };
   }
 
   // sem .select(): a chave anon não tem permissão de leitura, e nem precisa
@@ -43,8 +43,12 @@ export async function submitLead(_prev: LeadState, formData: FormData): Promise<
 
   // 23505 = e-mail já cadastrado: para quem preencheu, o resultado é o mesmo
   if (error && error.code !== "23505") {
-    console.error("[lead] falha ao inserir:", error.code, error.message);
-    return { status: "error", message: "Não conseguimos enviar agora. Tente novamente em instantes.", values };
+    console.error("[lead] falha ao inserir no Supabase:", error.code, error.message);
+    return {
+      status: "error",
+      message: error.message || "Não conseguimos enviar agora. Tente novamente em instantes.",
+      values,
+    };
   }
 
   return { status: "success" };
