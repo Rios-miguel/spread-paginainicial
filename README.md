@@ -1,72 +1,108 @@
-# Spread · Landing page
+# Spread · Landing Page
 
-Landing page da Spread (rastreio on-chain de golpes para compliance e risco).
-Next.js (App Router) · Tailwind CSS v4 · Supabase (leads) · deploy na Vercel.
+> Landing page institucional da **Spread** — infraestrutura de conformidade e rastreamento de fraudes on-chain (Pix para Cripto, Travel Rule e interceptação de saques).
 
-## Rodar localmente
+Construída com **Next.js (App Router)**, **Tailwind CSS v4**, **TypeScript**, integração opcional de leads com **Supabase** e pronta para deploy com 1 clique na **Vercel**.
 
-```bash
-npm install
-cp .env.example .env.local   # preencha SUPABASE_URL e SUPABASE_ANON_KEY
-npm run dev                  # http://localhost:3000
-```
+---
 
-Sem as variáveis do Supabase, em desenvolvimento o formulário funciona e só registra o lead no terminal.
+## 🚀 Como Rodar Localmente
 
-## Design system
+### Pré-requisitos
+* **Node.js**: versão 18 ou superior (recomendado 20+)
+* **npm**, **pnpm** ou **yarn**
 
-Os tokens ficam em `src/app/globals.css` (bloco `@theme`, o equivalente ao `tailwind.config.ts` no Tailwind v4):
+### Passo a Passo
 
-| Token | Valor | Uso |
-|---|---|---|
-| `ink` | `#131b1f` | fundo principal (dark, "terminal") |
-| `surface` | `#1f2937` | cards |
-| `brand` | `#F26A1B` | laranja Spread, no papel do "neon" (CTAs, bordas no hover, blur) |
-| `brand-glow` | `#FFC49B` | segunda luz do blur e do gradiente |
-| `brand-deep` | `#B24A0D` | laranja com contraste AA sobre branco |
-| `paper` | `#FFFFFF` | seção clara (contraste) |
+1. **Clone ou extraia o projeto**:
+   ```bash
+   cd spread-landing
+   ```
 
-Tipografia: Poppins (títulos e texto) e IBM Plex Mono (detalhes de terminal).
+2. **Instale as dependências**:
+   ```bash
+   npm install
+   ```
 
-## Estrutura
+3. **Configure as variáveis de ambiente (Opcional)**:
+   ```bash
+   cp .env.example .env.local
+   ```
+   > 💡 **Nota:** Em modo de desenvolvimento, se você não preencher as chaves do Supabase, o formulário de contato funciona normalmente e registra o lead diretamente no terminal (console log), sem travar a tela.
 
-| Componente | Seção |
-|---|---|
-| `Hero` | dobra principal: blur laranja, h1 com gradiente, CTAs "Agendar uma demo" e "Falar com especialistas" |
-| `TrustBar` | redes e ativos cobertos (Solana, USDC, USDT, Token-2022, DEXs/bridges, Pix) |
-| `Features` | 3 pilares: Prevenção de Fraudes, Rastreamento de Ativos, Relatórios de Compliance |
-| `ProductMockup` | painel ilustrativo (grafo, KPIs, alertas, API) na transição escuro → claro |
-| `HowItWorks` | seção branca: passo a passo, salvaguardas e números com fonte |
-| `Contact` + `LeadForm` | captação: nome, e-mail corporativo, empresa |
+4. **Inicie o servidor de desenvolvimento**:
+   ```bash
+   npm run dev
+   ```
 
-## Leads no Supabase
+5. **Abra no seu navegador**:
+   Acesse [http://localhost:3000](http://localhost:3000)
 
-1. Crie um projeto em [supabase.com](https://supabase.com).
-2. No **SQL Editor**, rode `supabase/migrations/0001_leads.sql`.
-   - Cria `public.leads`, liga **RLS** e deixa a chave anon **só inserir** (`name`, `email`, `company`, `source`).
-   - Não há policy de `SELECT`: a landing não lê nada. Os leads aparecem no **Table Editor**.
-3. Em **Project Settings → API**, copie a URL e a chave **anon/publishable** para `SUPABASE_URL` e `SUPABASE_ANON_KEY`.
-   Nunca use a `service_role` key na landing.
+---
 
-O envio passa por uma Server Action (`src/app/actions.ts`): honeypot anti-robô, validação no servidor (inclusive
-bloqueio de e-mail pessoal) e `insert` sem `select`. E-mail repetido é tratado como sucesso.
+## 📦 Como Subir para o GitHub
 
-Teste rápido da RLS (deve falhar com permissão negada):
+Se você for criar um repositório novo no GitHub:
 
-```bash
-curl "$SUPABASE_URL/rest/v1/leads?select=*" -H "apikey: $SUPABASE_ANON_KEY"
-```
-
-## Git, GitHub e Vercel (CI/CD)
+1. Crie um repositório vazio no [GitHub.com](https://github.com/new) (ex: `spread-landing`).
+2. No terminal da pasta do projeto, execute:
 
 ```bash
 git init -b main
 git add .
-git commit -m "feat: landing page da Spread"
-git remote add origin https://github.com/<org>/spread-landing.git
+git commit -m "feat: landing page institucional da Spread"
+git remote add origin https://github.com/SEU_USUARIO/spread-landing.git
 git push -u origin main
 ```
 
-Na Vercel: **Add New → Project → Import** o repositório (o preset Next.js é detectado), cadastre
-`SUPABASE_URL`, `SUPABASE_ANON_KEY` e `NEXT_PUBLIC_SITE_URL` em **Environment Variables** e faça o deploy.
-A partir daí, todo push na `main` publica em produção, e cada pull request ganha uma URL de preview.
+---
+
+## ☁️ Deploy na Vercel (Produção em 2 Minutos)
+
+1. Conecte sua conta do GitHub na [Vercel](https://vercel.com).
+2. Clique em **Add New → Project** e selecione o repositório `spread-landing`.
+3. O preset **Next.js** será detectado automaticamente.
+4. (Opcional) Adicione as variáveis de ambiente no painel da Vercel:
+   * `SUPABASE_URL`
+   * `SUPABASE_ANON_KEY`
+5. Clique em **Deploy**. A partir daí, qualquer push na branch `main` atualizará a página automaticamente.
+
+---
+
+## 🎨 Design System e Tokens
+
+Os tokens visuais ficam definidos em `src/app/globals.css` no bloco `@theme` (padrão Tailwind CSS v4):
+
+| Token | Hex | Aplicação |
+|---|---|---|
+| `ink` | `#131B1F` | Fundo dark principal estilo terminal financeiro |
+| `surface` | `#1F2937` | Fundo de cards elevados |
+| `brand` | `#F26A1B` | Laranja Spread (CTAs principais, bordas e neon glow) |
+| `brand-glow` | `#FFC49B` | Luz secundária de gradiente e reflexos |
+| `brand-deep` | `#B24A0D` | Laranja de alto contraste AA para texto |
+| `paper` | `#FFFFFF` | Seção clara para contraste e quebra de leitura |
+
+* **Tipografia**: Poppins (títulos e textos) e IBM Plex Mono (dados técnicos e códigos).
+
+---
+
+## 🧩 Componentes da Página
+
+* **`Hero`**: Dobra principal de alto impacto com efeito de brilho e botões de conversão ("Agendar uma demo").
+* **`TrustBar`**: Faixa com as redes e ativos cobertos (Solana, Ethereum, Tron, Bitcoin, TON, USDC, USDT).
+* **`Features`**: Os 3 pilares de valor: Prevenção de Fraudes, Rastreamento em Tempo Real e Relatórios de Compliance.
+* **`ProductMockup`**: Demonstração visual do grafo de rastreio e painel de controle.
+* **`InteractiveNetworkGraph`**: Gráfico interativo simulando camadas de carteiras.
+* **`HowItWorks`**: Seção passo a passo com métricas reais e salvaguardas contra falsos positivos.
+* **`Pricing`**: Seção com os 2 planos institucionais ("Spread Antifraude" e "Spread Antifraude + Travel Rule") com precificação sob consulta e CTAs integrados ao console.
+* **`Login` (`/login`)**: Console de acesso com abas dinâmicas por produto, validação LEI ISO 17442, derivação local de chaves X25519 e preenchimento de teste (Sandbox).
+* **`Contact` / `LeadForm`**: Captação de leads B2B (anti-bot honeypot, validação corporativa e persistência).
+
+---
+
+## 🗄️ Banco de Dados (Supabase Leads)
+
+Para persistir os contatos em produção:
+1. No seu projeto do [Supabase](https://supabase.com), abra o **SQL Editor**.
+2. Execute o script contido em `supabase/migrations/0001_leads.sql`.
+3. O script ativa a política de **Row Level Security (RLS)** permitindo apenas inserções cegas de leads pela landing page.

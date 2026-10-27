@@ -32,10 +32,10 @@ export function Hero() {
 
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <a
-            href="#contato"
+            href="#planos"
             className="inline-flex h-13 w-full items-center justify-center gap-2 rounded-full bg-neon-lime px-8 text-base font-semibold text-ink shadow-[0_0_0_1px_rgb(210_251_122/0.4),0_10px_40px_-8px_rgb(210_251_122/0.5)] transition hover:bg-[#bbf451] hover:shadow-[0_0_48px_rgb(210_251_122/0.65)] sm:w-auto"
           >
-            Agendar uma Demo
+            Ver Planos do Spread
             <svg viewBox="0 0 20 20" fill="currentColor" className="size-4" aria-hidden="true">
               <path fillRule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.64l-3.22-3.22a.75.75 0 1 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 1 1-1.06-1.06l3.22-3.22H3.75A.75.75 0 0 1 3 10Z" clipRule="evenodd" />
             </svg>
@@ -44,7 +44,7 @@ export function Hero() {
             href="#contato"
             className="inline-flex h-13 w-full items-center justify-center rounded-full border border-white/25 px-8 text-base font-semibold text-white transition hover:border-brand hover:text-brand-light sm:w-auto"
           >
-            Falar com Especialistas
+            Agendar uma Demo
           </a>
         </div>
 
