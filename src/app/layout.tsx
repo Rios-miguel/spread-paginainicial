@@ -18,14 +18,14 @@ const plexMono = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
-  title: "Spread · Inteligência on-chain para compliance e risco",
+  title: "Spread · Travel Rule e antifraude para ativos virtuais",
   description:
-    "A Spread segue o dinheiro de golpe quando ele sai do Pix e vira cripto, e avisa a sua exchange antes do saque. Score proporcional, evidência verificável na Solana e canal direto com o banco da vítima.",
+    "O Travel Rule da Res. BCB 520 pronto para a sua instituição: troca das informações do art. 44 com qualquer contraparte, checagem na lista do BCB e auditoria. E a inteligência da Spread para reter o saque do dinheiro de golpe.",
   icons: { icon: "/icon.svg" },
   openGraph: {
     title: "Spread · O golpe deixa rastro. A gente segue.",
     description:
-      "Rastreio on-chain de dinheiro de golpe, aviso no saque e relatórios de compliance para exchanges, fintechs e bancos.",
+      "Travel Rule para a Res. BCB 520 e antifraude que retém o saque do dinheiro de golpe, para exchanges, corretoras e bancos.",
     locale: "pt_BR",
     type: "website",
   },

@@ -7,10 +7,11 @@ type LogoProps = {
 };
 
 /** Logo oficial da Spread (docs/brand/spread-logo.svg) em SVG inline. */
-export function Logo({ className = "size-8", holeColor = "#131b1f", withName = true, nameClassName = "text-white" }: LogoProps) {
+export function Logo({ className = "h-[1.15em] w-auto", holeColor = "#131b1f", withName = true, nameClassName = "text-white" }: LogoProps) {
+  // como no logo oficial: o S faz parte da palavra ("S" + "pread")
   return (
-    <span className="inline-flex items-center gap-2.5">
-      <svg viewBox="0 0 100 100" className={className} aria-hidden="true" focusable="false">
+    <span className={`inline-flex items-baseline text-2xl font-semibold tracking-tight ${nameClassName}`} aria-label="Spread">
+      <svg viewBox="17 9 65 82" className={`${className} mr-[0.04em] translate-y-[0.2em] self-baseline`} aria-hidden="true" focusable="false">
         <path
           d="M72 24 C64 13 35 12 31 30 C27 46 50 48 57 50 C65 52 75 59 71 73 C66 89 36 89 28 76"
           fill="none"
@@ -22,7 +23,7 @@ export function Logo({ className = "size-8", holeColor = "#131b1f", withName = t
         <circle cx="54.4" cy="49.4" r="5.5" fill={holeColor} stroke="#F26A1B" strokeWidth="4.5" />
         <circle cx="28" cy="76" r="7.5" fill="#F26A1B" stroke="#F26A1B" strokeWidth="4.5" />
       </svg>
-      {withName && <span className={`text-xl font-semibold tracking-tight ${nameClassName}`}>Spread</span>}
+      {withName && <span aria-hidden="true">pread</span>}
     </span>
   );
 }

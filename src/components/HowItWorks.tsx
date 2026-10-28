@@ -1,31 +1,31 @@
 const steps = [
   {
     n: "01",
-    title: "O caso é aberto",
-    text: "A exchange ou o banco registra o golpe denunciado. O caso nasce suspeito na Solana, só com o hash da evidência, e vira confirmado após a análise do MED.",
+    title: "Pedido de saque",
+    text: "No momento do saque, o cliente declara o destino: outra instituição ou carteira própria. O sistema da instituição chama a Spread pelo conector.",
   },
   {
     n: "02",
-    title: "O rastro segue ao vivo",
-    text: "O indexador acompanha cada transferência, calcula o taint proporcional e põe no radar toda carteira que recebe valor sujo, atravessando swaps e bridges.",
+    title: "Contraparte conferida",
+    text: "A instituição de destino precisa ser autorizada pelo BCB ou ter protocolado o pedido no prazo. Se não for, o saque é bloqueado com o motivo.",
   },
   {
     n: "03",
-    title: "Aviso no saque",
-    text: "Quando o dinheiro chega a uma conta de cliente, a exchange dona da conta recebe um webhook assinado em segundos, com o caminho até a origem.",
+    title: "Envio cifrado e resposta",
+    text: "O conector cifra os dados do remetente e do beneficiário para a chave do destino. O destino confere no próprio cadastro se o cliente existe e se o nome bate, e aceita ou recusa.",
   },
   {
     n: "04",
-    title: "Banco e exchange no mesmo caso",
-    text: "O banco da vítima pede os dados do titular, a exchange responde com a Travel Rule, retém e devolve. Dados pessoais cifrados de ponta a ponta.",
+    title: "Liberação com o aceite",
+    text: "Só com o aceite o saque vai para a blockchain. Sem resposta, vai para o compliance. Quando integrado à inteligência da Spread, o risco da carteira entra na mesma decisão.",
   },
 ];
 
 const safeguards = [
-  { title: "Score proporcional", text: "Quem recebeu US$ 500 do golpe sobre US$ 50 mil limpos fica com 1% e passa." },
-  { title: "A Spread recomenda, você decide", text: "Cada integrador define os próprios limites de alerta e bloqueio." },
-  { title: "Dedução nunca bloqueia", text: "Ligações inferidas (bridge, mixer) geram alerta para análise, nunca Flag." },
-  { title: "Contestação on-chain", text: "A carteira sinalizada pode contestar; caso arquivado deixa de contar." },
+  { title: "Nunca aprovado no silêncio", text: "Sem resposta da contraparte no prazo, o saque vai para o seu compliance." },
+  { title: "Você decide", text: "Onde a norma deixa espaço, a regra é definida pelo compliance da instituição." },
+  { title: "Contraparte conferida todo dia", text: "A lista oficial do BCB é atualizada todo dia; sem ela, o saque vai para revisão." },
+  { title: "Dado pessoal fica com você", text: "A Spread transporta os dados cifrados e guarda só o histórico sem dado pessoal." },
 ];
 
 const stats = [
@@ -36,10 +36,10 @@ const stats = [
     href: "https://mais.opovo.com.br/reportagens-especiais/2026/07/24/a-cada-rs-100-em-golpes-no-pix-instituicoes-devolvem-apenas-rs-890.html",
   },
   {
-    v: "R$ 4,9 bi",
-    d: "perdidos em fraudes via Pix de janeiro a setembro de 2025, alta de 35%.",
-    src: "Migalhas",
-    href: "https://www.migalhas.com.br/depeso/439239/pix-x-golpes-como-as-novas-regras-do-banco-central-vao-proteger-voce",
+    v: "31,9 mi",
+    d: "operações de compra e venda de criptoativos no Brasil em um só mês (nov/2024).",
+    src: "Receita Federal",
+    href: "https://www.gov.br/receitafederal/pt-br/assuntos/orientacao-tributaria/declaracoes-e-demonstrativos/criptoativos/arquivos/criptoativos_dados_abertos_20250822.pdf",
   },
   {
     v: "~80%",
@@ -58,11 +58,11 @@ export function HowItWorks() {
         <div className="reveal mx-auto max-w-2xl text-center">
           <p className="font-mono text-xs uppercase tracking-[0.18em] text-brand-deep">Como funciona</p>
           <h2 id="como-title" className="mt-4 text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
-            Do Pix denunciado ao saque retido
+            Do pedido de saque à liberação
           </h2>
           <p className="mt-5 text-lg text-muted-light text-pretty">
-            A Spread entra exatamente onde o rastro bancário morre e liga o banco da vítima às exchanges por onde o
-            dinheiro passa.
+            Nada vai para a blockchain antes de a outra ponta aceitar. Cada etapa fica registrada com o motivo, pronta
+            para a fiscalização.
           </p>
         </div>
 
@@ -81,10 +81,10 @@ export function HowItWorks() {
 
         <div className="reveal mt-20 grid gap-10 rounded-3xl bg-paper-warm p-8 ring-1 ring-brand/15 sm:p-12 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
-            <h3 className="text-2xl font-semibold tracking-tight sm:text-3xl">Sem acusar inocente</h3>
+            <h3 className="text-2xl font-semibold tracking-tight sm:text-3xl">Decisão com o porquê</h3>
             <p className="mt-4 text-muted-light">
-              Falso positivo custa cliente. Por isso cada decisão vem com o porquê (caminho, valor e parte inferida) e
-              as salvaguardas estão no motor, não no contrato.
+              Saque travado sem motivo custa cliente, e saque liberado sem as informações custa a autorização. Por
+              isso cada decisão do Travel Rule vem com o motivo, e as salvaguardas estão no produto.
             </p>
           </div>
           <ul className="grid gap-5 sm:grid-cols-2">

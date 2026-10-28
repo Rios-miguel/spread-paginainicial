@@ -1,6 +1,6 @@
 # Spread · Landing Page
 
-> Landing page institucional da **Spread** — infraestrutura de conformidade e rastreamento de fraudes on-chain (Pix para Cripto, Travel Rule e interceptação de saques).
+> Landing page institucional da **Spread**: Travel Rule para a Res. BCB 520/2025 (produto principal) e a inteligência antifraude que retém o saque do dinheiro de golpe.
 
 Construída com **Next.js (App Router)**, **Tailwind CSS v4**, **TypeScript**, integração opcional de leads com **Supabase** e pronta para deploy com 1 clique na **Vercel**.
 
@@ -89,12 +89,12 @@ Os tokens visuais ficam definidos em `src/app/globals.css` no bloco `@theme` (pa
 ## 🧩 Componentes da Página
 
 * **`Hero`**: Dobra principal de alto impacto com efeito de brilho e botões de conversão ("Agendar uma demo").
-* **`TrustBar`**: Faixa com as redes e ativos cobertos (Solana, Ethereum, Tron, Bitcoin, TON, USDC, USDT).
-* **`Features`**: Os 3 pilares de valor: Prevenção de Fraudes, Rastreamento em Tempo Real e Relatórios de Compliance.
+* **`TrustBar`**: Faixa com as redes lidas pelo antifraude (Bitcoin, Ethereum, Solana, Tron, TON, Arbitrum, Polygon e Robinhood Chain).
+* **`Features`**: Os 3 pilares: Travel Rule, Antifraude (reter o saque) e Compliance e auditoria.
 * **`ProductMockup`**: Demonstração visual do grafo de rastreio e painel de controle.
 * **`InteractiveNetworkGraph`**: Gráfico interativo simulando camadas de carteiras.
-* **`HowItWorks`**: Seção passo a passo com métricas reais e salvaguardas contra falsos positivos.
-* **`Pricing`**: Seção com os 2 planos institucionais ("Spread Antifraude" e "Spread Antifraude + Travel Rule") com precificação sob consulta e CTAs integrados ao console.
+* **`HowItWorks`**: Um saque com Travel Rule passo a passo, as salvaguardas e números do mercado.
+* **`Pricing`**: Os 2 planos ("Spread Travel Rule", o principal, e o módulo "Inteligência Spread · Antifraude", em desenvolvimento), com preço sob consulta e CTAs integrados ao console.
 * **`Login` (`/login`)**: Console de acesso com abas dinâmicas por produto, validação LEI ISO 17442, derivação local de chaves X25519 e preenchimento de teste (Sandbox).
 * **`Contact` / `LeadForm`**: Captação de leads B2B (anti-bot honeypot, validação corporativa e persistência).
 

@@ -21,49 +21,49 @@ interface Plan {
 
 const plans: Plan[] = [
   {
-    id: "antifraude",
-    name: "Spread Antifraude",
-    badge: "MOTOR ON-CHAIN",
-    tagColor: "border-neon-cyan/40 bg-neon-cyan/10 text-neon-cyan",
+    id: "travel-rule",
+    name: "Spread Travel Rule",
+    badge: "RES. BCB 520/2025 · ARTS. 44 E 91",
+    tagColor: "border-brand/40 bg-brand/10 text-brand-light",
     description:
-      "Monitoramento contínuo em tempo real, detecção de golpes Pix-to-cripto e prevenção ativa contra saques de fundos ilícitos.",
-    priceLabel: "Valor a decidir",
-    priceSub: "Sob consulta · Dimensionado por volume de transações e endpoints",
-    buttonText: "Acessar Spread Antifraude →",
-    buttonHref: "/login?product=antifraude",
+      "Para exchanges, corretoras e bancos que prestam serviços de ativos virtuais: a troca de informações que o Banco Central exige, com qualquer contraparte, e a trilha para a fiscalização.",
+    priceLabel: "Sob consulta",
+    priceSub: "Mensalidade · Dimensionada pelo volume de transferências da instituição",
+    isPopular: true,
+    buttonText: "Acessar Spread Travel Rule →",
+    buttonHref: "/login?product=travel-rule",
     features: [
-      { text: "Rastreio em tempo real multirrede (Solana, EVM, Tron, Bitcoin, TON)" },
-      { text: "Cálculo de Taint Proporcional (Haircut Model de 0% a 100%)" },
-      { text: "Avisos pré-saque ultrarrápidos via Webhook assinado (1 a 3 segundos)" },
-      { text: "API REST /risk para triagem automática de endereços de depósito e saque" },
-      { text: "Grafo dinâmico com identificação de mixers (Tornado, Tonnel) e pontes" },
-      { text: "Dossiê probatório automático e pacote de congelamento Tether & Circle" },
-      { text: "Suporte a Transfer Hook on-chain na Solana (Token-2022)" },
-      { text: "Dashboards analíticos de risco operacional para mesas de OTC e exchanges" },
+      { text: "Informações do art. 44 em toda transferência, sem valor mínimo", highlight: true },
+      { text: "Contraparte autorizada (art. 91) conferida na lista oficial do BCB, atualizada todo dia", highlight: true },
+      { text: "Rede Spread e protocolo aberto TRP v3.2.1 (OpenVASP): fala com quem não é cliente" },
+      { text: "Conector no seu ambiente: dados pessoais cifrados de ponta a ponta (X25519 + ChaCha20-Poly1305)" },
+      { text: "Confirmação do beneficiário no seu cadastro e quarentena do depósito sem informação" },
+      { text: "Autodeclaração do cliente para carteira autocustodiada (art. 89, §1º)" },
+      { text: "Fila de comunicação ao Coaf: autocustodiada a partir de US$ 10 mil, prazo de 24 h" },
+      { text: "Console de compliance e trilha de auditoria por 5 anos (art. 45)" },
+      { text: "Testado com 20 mil saques e um processo do servidor derrubado: nada perdido nem duplicado" },
     ],
   },
   {
-    id: "travel-rule",
-    name: "Spread Antifraude + Travel Rule",
-    badge: "SUITE INTEGRADA BACEN · COMPLETA",
-    tagColor: "border-brand/40 bg-brand/10 text-brand-light",
+    id: "antifraude",
+    name: "Inteligência Spread · Antifraude",
+    badge: "MÓDULO EM DESENVOLVIMENTO",
+    tagColor: "border-neon-cyan/40 bg-neon-cyan/10 text-neon-cyan",
     description:
-      "A infraestrutura institucional completa para VASPs e bancos: antifraude preventivo aliado à conformidade total com as normas do Banco Central.",
-    priceLabel: "Valor a decidir",
-    priceSub: "Sob consulta · Licença corporativa unificada com suporte dedicado",
-    isPopular: true,
-    buttonText: "Acessar Suite Antifraude + Travel Rule →",
-    buttonHref: "/login?product=travel-rule",
+      "Sinaliza a carteira que recebeu dinheiro de golpe para a exchange reter o saque antes de o valor sumir. Oferecido aos clientes do Travel Rule.",
+    priceLabel: "Sob consulta",
+    priceSub: "Módulo opcional · Junto com o Spread Travel Rule",
+    buttonText: "Acessar Spread Antifraude →",
+    buttonHref: "/login?product=antifraude",
     features: [
-      { text: "TUDO incluído no plano Spread Antifraude", highlight: true },
-      { text: "Conformidade integral com as Resoluções BCB nº 520 e nº 589", highlight: true },
-      { text: "Protocolo TRP v3.2.1 (padrão OpenVASP/IVMS101) + Conector de Rede Spread" },
-      { text: "Canal de Caso criptografado ponta a ponta (X25519 + ChaCha20-Poly1305)" },
-      { text: "Cifragem de envelopes no cliente via WebCrypto (seal.js) — privacidade LGPD" },
-      { text: "Módulo cego de verificação para carteiras autocustodiadas (Self-Hosted)" },
-      { text: "Reconciliação automatizada contínua com Bacen Olinda e Diário Oficial da União" },
-      { text: "Geração de dossiê auditável em PDF e JSON assinado para o Coaf/UIF e Bacen" },
-      { text: "Canal de homologação e suporte prioritário 24/7 com engenharia de compliance" },
+      { text: "Aviso quando dinheiro de golpe chega a uma conta de depósito sua, antes do saque", highlight: true },
+      { text: "Score proporcional por carteira, com o caminho até a origem" },
+      { text: "8 redes: Bitcoin, Ethereum, Solana, Tron, TON, Arbitrum, Polygon e Robinhood Chain" },
+      { text: "Principais mixers no catálogo: Tornado Cash, Railgun, Privacy Pools, Privacy Cash, Tonnel e CoinJoin" },
+      { text: "Carteiras da lista de sanções da OFAC e congeladas pela Tether e pela Circle" },
+      { text: "API de risco: ok, alertar ou bloquear, nos limites que você define" },
+      { text: "Relatório do caso para pedir o congelamento à Tether e à Circle" },
+      { text: "Validado com 17 golpes reais, incluindo um hack de exchange de US$ 113,6 milhões" },
     ],
   },
 ];
@@ -88,8 +88,8 @@ export function Pricing() {
             Escolha a arquitetura sob medida para a sua instituição
           </h2>
           <p className="mt-5 text-base leading-relaxed text-muted sm:text-lg">
-            Módulos independentes ou integrados para atender aos desafios de combate à fraude cripto e cumprir todas as
-            exigências regulatórias do Banco Central do Brasil.
+            O Travel Rule para cumprir a norma do Banco Central e, junto dele, a inteligência da Spread para reter o
+            saque do dinheiro de golpe.
           </p>
         </div>
 
@@ -115,7 +115,7 @@ export function Pricing() {
                         clipRule="evenodd"
                       />
                     </svg>
-                    SOLUÇÃO COMPLETA RECOMENDADA
+                    PRODUTO PRINCIPAL
                   </span>
                 </div>
               )}
@@ -196,7 +196,7 @@ export function Pricing() {
                   </svg>
                 </Link>
                 <p className="mt-2.5 text-center text-[11px] text-muted">
-                  Acesso instantâneo ao terminal de autenticação e sandbox
+                  Acesso ao console para instituições clientes
                 </p>
               </div>
             </div>
@@ -207,10 +207,10 @@ export function Pricing() {
         <div className="mt-14 rounded-2xl border border-line bg-surface/40 p-6 sm:p-8 backdrop-blur-md">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-2xl">
-              <h4 className="text-base font-semibold text-white">Precisa de um acordo institucional customizado?</h4>
+              <h4 className="text-base font-semibold text-white">Quer ver funcionando na sua operação?</h4>
               <p className="mt-1 text-sm text-muted">
-                Atendemos bancos liquidantes do Pix, exchanges globais com operação local e consórcios regulatórios. O
-                dimensionamento e os termos de SLA são adaptados à sua volumetria de processamento.
+                Para exchanges, corretoras e bancos de câmbio que prestam serviços de ativos virtuais. Mostramos um saque
+                entre duas instituições e dimensionamos o plano pelo volume da sua instituição.
               </p>
             </div>
             <div className="flex shrink-0 flex-wrap items-center gap-3">

@@ -18,12 +18,12 @@ const icon = "size-6";
 const pillars: Pillar[] = [
   {
     tag: "01",
-    title: "Prevenção de Fraudes",
-    lead: "O aviso chega na tentativa de saque, antes de o dinheiro virar real de novo.",
+    title: "Travel Rule",
+    lead: "As informações de remetente e beneficiário que o Banco Central exige, em toda transferência e com qualquer contraparte.",
     points: [
-      "Webhook assinado (HMAC) para a exchange dona da conta de depósito",
-      "API de risco com recomendação ok, alertar ou bloquear, nos limites que você define",
-      "Transfer Hook (Token-2022): a própria rede recusa a transferência",
+      "Rede Spread e protocolo aberto TRP (OpenVASP): a outra ponta não precisa ser cliente",
+      "Confere se a contraparte é autorizada pelo BCB, com a lista oficial atualizada todo dia",
+      "Conector no seu ambiente: dados pessoais cifrados de ponta a ponta, a Spread não lê",
     ],
     hoverBorder: "hover:border-brand",
     hoverShadow: "hover:shadow-[0_0_32px_-6px_rgb(242_106_27/0.45)]",
@@ -39,12 +39,12 @@ const pillars: Pillar[] = [
   },
   {
     tag: "02",
-    title: "Rastreamento de Ativos",
-    lead: "Taint proporcional, carteira por carteira, em tempo real.",
+    title: "Antifraude: reter o saque",
+    lead: "Sinaliza a carteira que recebeu dinheiro de golpe para a exchange reter o saque a tempo.",
     points: [
-      "Segue cada camada de pulverização assim que o caso é aberto",
-      "O rastro atravessa swaps em DEX e bridges",
-      "Anti-dusting: exige percentual e valor sujo mínimo para sinalizar",
+      "Aviso quando o dinheiro chega a uma conta de depósito sua, com o caminho até a origem",
+      "Score proporcional: quem recebeu um pouco misturado a dinheiro limpo não é tratado como golpista",
+      "Atravessa os principais mixers, pontes e swaps; módulo em desenvolvimento, validado com 17 golpes reais",
     ],
     hoverBorder: "hover:border-neon-cyan",
     hoverShadow: "hover:shadow-[0_0_32px_-6px_rgb(0_255_255/0.45)]",
@@ -62,12 +62,12 @@ const pillars: Pillar[] = [
   },
   {
     tag: "03",
-    title: "Relatórios de Compliance",
-    lead: "Evidência pronta para agir, com cadeia de custódia.",
+    title: "Compliance e auditoria",
+    lead: "Cada decisão registrada com o motivo, pronta para a fiscalização.",
     points: [
-      "Pacote de congelamento para Circle e Tether (USDC/USDT)",
-      "Canal de Caso com Travel Rule (IVMS101), cifrado de ponta a ponta",
-      "Só o hash da evidência vai on-chain: LGPD por padrão",
+      "Fila de comunicação ao Coaf: autocustodiada a partir de US$ 10 mil, prazo de 24 h",
+      "Trilha de auditoria guardada por 5 anos, sem dado pessoal na Spread",
+      "Relatório do caso de golpe pronto para pedir o congelamento à Tether e à Circle",
     ],
     hoverBorder: "hover:border-neon-lime",
     hoverShadow: "hover:shadow-[0_0_32px_-6px_rgb(210_251_122/0.45)]",
@@ -90,11 +90,11 @@ export function Features() {
         <div className="reveal mx-auto max-w-2xl text-center">
           <p className="font-mono text-xs uppercase tracking-[0.18em] text-brand">A solução</p>
           <h2 id="solucao-title" className="mt-4 text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
-            Onde o MED não alcança, <span className="text-gradient">a Spread começa</span>
+            Uma integração para cumprir a norma <span className="text-gradient">e reter o golpe</span>
           </h2>
           <p className="mt-5 text-lg text-muted text-pretty">
-            O rastro bancário morre quando o valor vira cripto. Três pilares para a sua equipe de PLD agir nesse
-            instante.
+            O Travel Rule que o Banco Central exige, e a inteligência da Spread para o dinheiro de golpe que vira
+            cripto. Três pilares para a sua equipe de compliance.
           </p>
         </div>
 
