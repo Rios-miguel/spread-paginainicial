@@ -1,6 +1,6 @@
--- Leads da landing page da Spread.
--- A landing usa a chave anon/publishable: ela só pode INSERIR nesta tabela, nunca ler, alterar ou apagar.
--- Rode no SQL Editor do Supabase.
+-- Leads da landing page da Spread, no PostgreSQL da Spread.
+-- O site entra com o usuário site_landing, que só pode INSERIR nesta tabela, nunca ler, alterar ou apagar.
+-- Rode como dono do banco "site" (psql -d site -f db/0001_leads.sql).
 
 create table if not exists public.leads (
   id          uuid primary key default gen_random_uuid(),
@@ -19,23 +19,13 @@ create table if not exists public.leads (
 create unique index if not exists leads_email_key on public.leads (lower(email));
 create index if not exists leads_created_at_idx on public.leads (created_at desc);
 
-comment on table public.leads is 'Leads da landing page (nome, e-mail corporativo, empresa). Inserção pública via RLS; leitura só pelo painel/service role.';
+comment on table public.leads is 'Leads da landing page (nome, e-mail corporativo, empresa). O site só insere; leitura só pelo dono do banco.';
 
 -- ---------------------------------------------------------------------------
--- Segurança: RLS + privilégios mínimos
+-- Segurança: privilégios mínimos para o usuário do site
 -- ---------------------------------------------------------------------------
-alter table public.leads enable row level security;
-alter table public.leads force row level security;
-
--- O Supabase concede tudo a anon/authenticated por padrão no schema public: tiramos tudo...
-revoke all on table public.leads from anon, authenticated;
-
--- ...e devolvemos só o INSERT das colunas que o formulário envia (id, created_at e status não são graváveis).
-grant insert (name, email, company, source) on table public.leads to anon;
-
-drop policy if exists "landing pode inserir leads" on public.leads;
-create policy "landing pode inserir leads"
-  on public.leads
-  for insert
-  to anon
-  with check (source = 'landing');
+revoke all on schema public from public;
+revoke all on table public.leads from public;
+grant usage on schema public to site_landing;
+-- só o INSERT das colunas que o formulário envia (id, created_at e status não são graváveis)
+grant insert (name, email, company, source) on table public.leads to site_landing;
