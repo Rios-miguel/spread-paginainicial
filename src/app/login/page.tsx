@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState, useEffect } from "react";
+import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
@@ -9,47 +9,9 @@ type ProductType = "antifraude" | "travel-rule";
 
 function LoginFormContent() {
   const searchParams = useSearchParams();
-  const initialProduct = searchParams.get("product") === "travel-rule" ? "travel-rule" : "antifraude";
-
-  const [activeTab, setActiveTab] = useState<ProductType>(initialProduct);
-  // login de pessoa: e-mail, senha e o código do app autenticador. Os segredos da integração (API Key, chaves,
-  // LEI) nunca são digitados aqui: ficam no servidor e no conector da instituição
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [otp, setOtp] = useState("");
-  const [statusMsg, setStatusMsg] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  // Sincroniza se a query param mudar na URL
-  useEffect(() => {
-    const p = searchParams.get("product");
-    if (p === "travel-rule") {
-      setActiveTab("travel-rule");
-    } else if (p === "antifraude") {
-      setActiveTab("antifraude");
-    }
-  }, [searchParams]);
-
-  const handleDemoFill = () => {
-    setEmail(activeTab === "antifraude" ? "prevencao@exchange-exemplo.com.br" : "compliance@exchange-exemplo.com.br");
-    setPassword("demonstracao");
-    setOtp("123456");
-    setStatusMsg("Dados de demonstração preenchidos.");
-    setTimeout(() => setStatusMsg(null), 4000);
-  };
-
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setStatusMsg("Conferindo e-mail, senha e código...");
-
-    setTimeout(() => {
-      setStatusMsg(activeTab === "antifraude"
-        ? "✓ Acesso confirmado. Abrindo o console do Antifraude..."
-        : "✓ Acesso confirmado. Abrindo o console do Travel Rule...");
-      setIsLoading(false);
-    }, 1800);
-  };
+  // a aba vem do ?product= da URL até a pessoa trocar; sem ele, Travel Rule (o produto no ar)
+  const [chosen, setActiveTab] = useState<ProductType | null>(null);
+  const activeTab: ProductType = chosen ?? (searchParams.get("product") === "antifraude" ? "antifraude" : "travel-rule");
 
   return (
     <div className="relative min-h-screen bg-ink text-white flex flex-col justify-between overflow-hidden">
@@ -70,7 +32,7 @@ function LoginFormContent() {
           <div className="flex items-center gap-4">
             <div className="hidden sm:flex items-center gap-2 font-mono text-[11px] text-muted">
               <span className="size-2 rounded-full bg-ok animate-pulse" />
-              <span>CONEXÃO SEGURA · VERIFICAÇÃO EM DUAS ETAPAS</span>
+              <span>CONEXÃO SEGURA</span>
             </div>
             <Link
               href="/"
@@ -106,7 +68,6 @@ function LoginFormContent() {
                 type="button"
                 onClick={() => {
                   setActiveTab("antifraude");
-                  setStatusMsg(null);
                 }}
                 className={`flex flex-col items-center justify-center rounded-xl py-3 px-3 text-xs sm:text-sm font-semibold transition-all duration-200 ${
                   activeTab === "antifraude"
@@ -131,7 +92,6 @@ function LoginFormContent() {
                 type="button"
                 onClick={() => {
                   setActiveTab("travel-rule");
-                  setStatusMsg(null);
                 }}
                 className={`flex flex-col items-center justify-center rounded-xl py-3 px-3 text-xs sm:text-sm font-semibold transition-all duration-200 ${
                   activeTab === "travel-rule"
@@ -170,128 +130,39 @@ function LoginFormContent() {
               )}
             </div>
 
-            {/* Formulário de Login */}
-            <form onSubmit={handleLogin} className="mt-6 space-y-4">
-              {(() => {
-                const focus = activeTab === "antifraude" ? "focus:border-neon-cyan" : "focus:border-brand";
-                const field = `mt-1.5 w-full rounded-xl border border-line bg-ink px-4 py-3 font-mono text-sm text-white placeholder-muted/60 transition ${focus} focus:outline-none`;
-                return (
-                  <>
-                    <div>
-                      <label htmlFor="login-email" className="block font-mono text-xs font-medium uppercase tracking-wider text-muted">
-                        E-mail corporativo
-                      </label>
-                      <input
-                        id="login-email"
-                        type="email"
-                        required
-                        autoComplete="username"
-                        placeholder="voce@suaexchange.com.br"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className={field}
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="login-senha" className="block font-mono text-xs font-medium uppercase tracking-wider text-muted">
-                        Senha
-                      </label>
-                      <input
-                        id="login-senha"
-                        type="password"
-                        required
-                        autoComplete="current-password"
-                        placeholder="••••••••••••"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className={field}
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="login-otp" className="block font-mono text-xs font-medium uppercase tracking-wider text-muted">
-                        Código do app autenticador
-                      </label>
-                      <input
-                        id="login-otp"
-                        type="text"
-                        required
-                        inputMode="numeric"
-                        autoComplete="one-time-code"
-                        pattern="[0-9]{6}"
-                        maxLength={6}
-                        placeholder="000000"
-                        value={otp}
-                        onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
-                        className={`${field} tracking-[0.4em]`}
-                      />
-                      <p className="mt-1.5 text-[11px] text-muted">
-                        Os 6 dígitos do Google Authenticator, Microsoft Authenticator ou outro app que você usa.
-                      </p>
-                    </div>
-                  </>
-                );
-              })()}
-
-              {/* Status Message */}
-              {statusMsg && (
-                <div
-                  className={`rounded-xl p-3.5 font-mono text-xs leading-relaxed transition-all ${
-                    statusMsg.startsWith("✓")
-                      ? "border border-ok/40 bg-ok/10 text-ok"
-                      : "border border-brand/40 bg-brand/10 text-brand-light"
-                  }`}
+            {/* Acesso: o Travel Rule abre o console, onde a instituição entra com a chave de acesso dela; o antifraude
+                ainda está em piloto com corretoras parceiras */}
+            {activeTab === "travel-rule" ? (
+              <div className="mt-6">
+                <a
+                  href="/travelrule"
+                  className="inline-flex h-13 w-full items-center justify-center gap-2 rounded-xl bg-neon-lime text-sm font-semibold text-ink shadow-[0_0_24px_rgb(210_251_122/0.4)] transition-all duration-200 hover:bg-[#bbf451]"
                 >
-                  {statusMsg}
+                  Entrar no Spread Travel Rule →
+                </a>
+                <p className="mt-3 text-center text-[11px] text-muted">
+                  No console, use a chave de acesso que a Spread entregou à sua instituição.
+                </p>
+              </div>
+            ) : (
+              <div className="mt-6">
+                <div className="rounded-xl border border-neon-cyan/30 bg-neon-cyan/5 p-4 text-xs leading-relaxed text-muted">
+                  <strong className="text-white">Em piloto com corretoras parceiras.</strong> O acesso ao Antifraude é
+                  liberado para as instituições participantes do piloto.
                 </div>
-              )}
-
-              {/* Botão de Envio */}
-              <button
-                type="submit"
-                disabled={isLoading}
-                className={`mt-4 inline-flex h-13 w-full items-center justify-center gap-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
-                  activeTab === "travel-rule"
-                    ? "bg-neon-lime text-ink shadow-[0_0_24px_rgb(210_251_122/0.4)] hover:bg-[#bbf451]"
-                    : "bg-brand text-ink shadow-[0_0_24px_rgb(242_106_27/0.4)] hover:bg-brand-light"
-                } ${isLoading ? "opacity-75 cursor-not-allowed" : ""}`}
-              >
-                {isLoading ? (
-                  <>
-                    <svg
-                      className="size-4 animate-spin"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="3"
-                    >
-                      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeOpacity="0.25" />
-                      <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" />
-                    </svg>
-                    Autenticando...
-                  </>
-                ) : activeTab === "travel-rule" ? (
-                  "Entrar no Spread Travel Rule →"
-                ) : (
-                  "Entrar no Spread Antifraude →"
-                )}
-              </button>
-
-              {/* Botão de Preenchimento Rápido para Demonstração */}
-              <button
-                type="button"
-                onClick={handleDemoFill}
-                className="w-full text-center font-mono text-[11px] text-muted transition hover:text-white pt-2"
-              >
-                [Preencher com dados de demonstração]
-              </button>
-            </form>
+                <Link
+                  href="/#contato"
+                  className="mt-4 inline-flex h-13 w-full items-center justify-center gap-2 rounded-xl bg-brand text-sm font-semibold text-ink shadow-[0_0_24px_rgb(242_106_27/0.4)] transition-all duration-200 hover:bg-brand-light"
+                >
+                  Quero participar do piloto →
+                </Link>
+              </div>
+            )}
 
             {/* Rodapé do Card */}
             <div className="mt-8 pt-6 border-t border-line text-center">
               <p className="text-xs text-muted">
-                O acesso é criado pela Spread no início do contrato, e o administrador da sua instituição convida a equipe.
+                A chave de acesso é criada pela Spread no início do contrato e entregue por canal seguro.
               </p>
               <Link
                 href="/#planos"
