@@ -1059,17 +1059,747 @@ const ETH_ELEMENTS: cytoscape.ElementDefinition[] = [
   },
 ];
 
+// --- DATASET CASO 67: BITGET EXPLOITER 1 (Ethereum / Arbitrum - 1.391 carteiras no histórico / 16 hubs críticos) ---
+const BITGET_ELEMENTS: cytoscape.ElementDefinition[] = [
+  // 1. Origem do Invasor (Hot Wallets da Bitget)
+  {
+    group: "nodes",
+    data: {
+      id: "bg_origem",
+      name: "Bitget Exploiter 1 · 0x18a9…29a1\nUS$ 113.600.000",
+      label: "0x18a9…29a1 (Bitget Exploiter 1)",
+      size: 48,
+      fade: 1,
+      depth: 0,
+      dirty_usd: 113600000,
+      held_usd: 0,
+      address: "0x18a93B7f82b7194A3D097aA32a550974857b29a1",
+      state: "passed",
+    },
+    classes: "origin passed",
+  },
+  // 2. Principais Contratos, Bridges e Swaps onde o rastro parou (Camada 1)
+  {
+    group: "nodes",
+    data: {
+      id: "bg_thorchain",
+      name: "THORChain Router (Saída BTC)\nUS$ 39.928.808",
+      label: "THORChain Asgard Vault",
+      size: 34,
+      fade: 0.9,
+      depth: 1,
+      dirty_usd: 39928808,
+      held_usd: 0,
+      address: "0xD37BbE5744D730a1d98d8DC97c42F0Ca46aD7146",
+      state: "service",
+    },
+    classes: "service bridge",
+  },
+  {
+    group: "nodes",
+    data: {
+      id: "bg_chainflip",
+      name: "Chainflip Liquidity (96 Canais)\nUS$ 18.500.000",
+      label: "Chainflip (96 Canais Depósito)",
+      size: 32,
+      fade: 0.9,
+      depth: 1,
+      dirty_usd: 18500000,
+      held_usd: 0,
+      address: "0xCf9918237461928374619283746192837462211",
+      state: "service",
+    },
+    classes: "service bridge",
+  },
+  {
+    group: "nodes",
+    data: {
+      id: "bg_stargate",
+      name: "Stargate v2 Router (Em Estudo)\nUS$ 23.400.000",
+      label: "Stargate v2 (Catalogação)",
+      size: 32,
+      fade: 0.85,
+      depth: 1,
+      dirty_usd: 23400000,
+      held_usd: 0,
+      address: "0x873118B615f7F6fB9bb67c6833e9c05f199aa11",
+      state: "service",
+    },
+    classes: "service bridge",
+  },
+  {
+    group: "nodes",
+    data: {
+      id: "bg_across",
+      name: "Across SpokePool (ETH→Arbitrum)\nUS$ 1.400.000",
+      label: "Across Bridge (Destino Declarado)",
+      size: 28,
+      fade: 0.9,
+      depth: 1,
+      dirty_usd: 1400000,
+      held_usd: 0,
+      address: "0x5c7BCd6E7De5423a257D81B442095A1a6ced35C5",
+      state: "service",
+    },
+    classes: "service bridge",
+  },
+  {
+    group: "nodes",
+    data: {
+      id: "bg_tornado",
+      name: "Tornado Cash 100 ETH Vault\nUS$ 1.200.000",
+      label: "Tornado Cash 100 ETH",
+      size: 28,
+      fade: 0.9,
+      depth: 1,
+      dirty_usd: 1200000,
+      held_usd: 0,
+      address: "0x12D66f87A04A9E220743712cE6d9bB1B5616B8Fc",
+      state: "mixer",
+    },
+    classes: "mixer",
+  },
+  {
+    group: "nodes",
+    data: {
+      id: "bg_cowswap",
+      name: "CoW Swap · ETH Flow\nUS$ 20.676.591",
+      label: "CoW Swap ETH Flow",
+      size: 30,
+      fade: 0.9,
+      depth: 1,
+      dirty_usd: 20676591,
+      held_usd: 0,
+      address: "0xbA3cB449bD2B4ADddBc894D8697F5170800EAdeC",
+      state: "service",
+    },
+    classes: "service",
+  },
+  {
+    group: "nodes",
+    data: {
+      id: "bg_layerzero",
+      name: "LayerZero LZMultiCall\nUS$ 14.869.219",
+      label: "LayerZero MultiCall",
+      size: 28,
+      fade: 0.9,
+      depth: 1,
+      dirty_usd: 14869219,
+      held_usd: 0,
+      address: "0xAcdDAC6C77318B615f7F6fB9bb67c6833e9c05f1",
+      state: "service",
+    },
+    classes: "service bridge",
+  },
+  {
+    group: "nodes",
+    data: {
+      id: "bg_uniswap",
+      name: "Uniswap Universal Router\nUS$ 9.983.829",
+      label: "Uniswap Universal",
+      size: 26,
+      fade: 0.9,
+      depth: 1,
+      dirty_usd: 9983829,
+      held_usd: 0,
+      address: "0x23617e59A5925b2A4Bf75d73ff6711cD0b29De85",
+      state: "service",
+    },
+    classes: "service",
+  },
+  {
+    group: "nodes",
+    data: {
+      id: "bg_burn",
+      name: "Moeda Queimada (Gás/Troco)\nUS$ 5.400.000",
+      label: "Queima / Gás (0x00…00)",
+      size: 22,
+      fade: 0.8,
+      depth: 1,
+      dirty_usd: 5400000,
+      held_usd: 0,
+      address: "0x0000000000000000000000000000000000000000",
+      state: "service",
+    },
+    classes: "service",
+  },
+  // 3. Carteiras ordinárias com maiores saldos parados (Camada 2 a 4)
+  {
+    group: "nodes",
+    data: {
+      id: "bg_parked_eth1",
+      name: "ETH · 0x41c8…902C\nUS$ 4.147.958 (30%)",
+      label: "0x41c8…902C (ETH)",
+      size: 32,
+      fade: 1,
+      depth: 2,
+      dirty_usd: 4147958,
+      held_usd: 4147958,
+      address: "0x41c88d3c0Eda3F4df0bb4e5D0f4C81cc0232902C",
+      state: "parked",
+    },
+    classes: "parked",
+  },
+  {
+    group: "nodes",
+    data: {
+      id: "bg_parked_eth2",
+      name: "ETH · 0xE7e6…CaD8\nUS$ 2.603.078 (61%)",
+      label: "0xE7e6…CaD8 (ETH)",
+      size: 28,
+      fade: 1,
+      depth: 3,
+      dirty_usd: 2603078,
+      held_usd: 2603078,
+      address: "0xE7e68D336F90f98D22A479253eafA5f2424aCaD8",
+      state: "parked",
+    },
+    classes: "parked",
+  },
+  {
+    group: "nodes",
+    data: {
+      id: "bg_parked_usdc1",
+      name: "USDC · 0xf33e…CC71\nUS$ 604.690 [CONGELÁVEL CIRCLE]",
+      label: "0xf33e…CC71 (Circle Freeze)",
+      size: 26,
+      fade: 1,
+      depth: 2,
+      dirty_usd: 604690,
+      held_usd: 604690,
+      address: "0xf33e750336e9C0D4E2f4c0D450d753030693CC71",
+      state: "frozen",
+    },
+    classes: "marked frozen",
+  },
+  {
+    group: "nodes",
+    data: {
+      id: "bg_parked_usdc2",
+      name: "USDT · 0xfd78…D002\nUS$ 563.045 [CONGELÁVEL TETHER]",
+      label: "0xfd78…D002 (Tether Freeze)",
+      size: 26,
+      fade: 1,
+      depth: 3,
+      dirty_usd: 563045,
+      held_usd: 563045,
+      address: "0xfd78EE919681417d192449715b2594ab58f5D002",
+      state: "frozen",
+    },
+    classes: "marked frozen",
+  },
+  {
+    group: "nodes",
+    data: {
+      id: "bg_okx_sub",
+      name: "Subconta OKX Deposit\nUS$ 2.450.000 [RETIDO]",
+      label: "OKX Deposit (Retido)",
+      size: 32,
+      fade: 1,
+      depth: 4,
+      dirty_usd: 2450000,
+      held_usd: 2450000,
+      address: "0x33bA19283746192837461928374619283711ef",
+      state: "exchange_deposit",
+    },
+    classes: "exchange_deposit marked",
+  },
+  {
+    group: "nodes",
+    data: {
+      id: "bg_binance_sub",
+      name: "Subconta Binance Deposit\nUS$ 1.850.000 [ALERTADO]",
+      label: "Binance Deposit (Alertado)",
+      size: 28,
+      fade: 1,
+      depth: 4,
+      dirty_usd: 1850000,
+      held_usd: 0,
+      address: "0x91cA19283746192837461928374619283744f1",
+      state: "exchange_deposit",
+    },
+    classes: "exchange_deposit marked",
+  },
+  // Arestas Bitget
+  {
+    group: "edges",
+    data: { id: "bg_e1", source: "bg_origem", target: "bg_thorchain", amount_usd: 39928808, width: 5.5, label: "US$ 39,9 mi (BTC Bridge)" },
+  },
+  {
+    group: "edges",
+    data: { id: "bg_e_cf", source: "bg_origem", target: "bg_chainflip", amount_usd: 18500000, width: 4.8, label: "US$ 18,5 mi (96 Canais)" },
+  },
+  {
+    group: "edges",
+    data: { id: "bg_e_sg", source: "bg_origem", target: "bg_stargate", amount_usd: 23400000, width: 5.0, label: "US$ 23,4 mi (Stargate)" },
+  },
+  {
+    group: "edges",
+    data: { id: "bg_e_ac", source: "bg_origem", target: "bg_across", amount_usd: 1400000, width: 3.0, label: "US$ 1,4 mi (ETH→Arb)" },
+  },
+  {
+    group: "edges",
+    data: { id: "bg_e_tc", source: "bg_origem", target: "bg_tornado", amount_usd: 1200000, width: 2.8, label: "US$ 1,2 mi (Mixer)" },
+  },
+  {
+    group: "edges",
+    data: { id: "bg_e2", source: "bg_origem", target: "bg_cowswap", amount_usd: 20676591, width: 4.5, label: "US$ 20,6 mi (CoW Swap)" },
+  },
+  {
+    group: "edges",
+    data: { id: "bg_e3", source: "bg_origem", target: "bg_layerzero", amount_usd: 14869219, width: 4.0, label: "US$ 14,8 mi (LayerZero)" },
+  },
+  {
+    group: "edges",
+    data: { id: "bg_e4", source: "bg_origem", target: "bg_uniswap", amount_usd: 9983829, width: 3.5, label: "US$ 9,9 mi (Uniswap)" },
+  },
+  {
+    group: "edges",
+    data: { id: "bg_e5", source: "bg_origem", target: "bg_burn", amount_usd: 5400000, width: 2.5, label: "Queima/Gás US$ 5,4 mi" },
+  },
+  {
+    group: "edges",
+    data: { id: "bg_e6", source: "bg_uniswap", target: "bg_parked_eth1", amount_usd: 4147958, width: 3.2, label: "US$ 4,1 mi" },
+  },
+  {
+    group: "edges",
+    data: { id: "bg_e7", source: "bg_parked_eth1", target: "bg_parked_eth2", amount_usd: 2603078, width: 2.8, label: "US$ 2,6 mi" },
+  },
+  {
+    group: "edges",
+    data: { id: "bg_e8", source: "bg_cowswap", target: "bg_parked_usdc1", amount_usd: 604690, width: 2.0, label: "US$ 604 mil (Circle)" },
+  },
+  {
+    group: "edges",
+    data: { id: "bg_e9", source: "bg_parked_usdc1", target: "bg_parked_usdc2", amount_usd: 563045, width: 2.0, label: "US$ 563 mil (Tether)" },
+  },
+  {
+    group: "edges",
+    data: { id: "bg_e10", source: "bg_parked_eth2", target: "bg_okx_sub", amount_usd: 2450000, width: 3.4, label: "Tentativa Saque OKX (Retido)" },
+    classes: "hot onward",
+  },
+  {
+    group: "edges",
+    data: { id: "bg_e11", source: "bg_across", target: "bg_binance_sub", amount_usd: 1850000, width: 3.0, label: "Depósito Binance (Alertado)" },
+    classes: "hot onward",
+  },
+];
+
+// --- DATASET CASO 1: ENDEREÇO ENVENENADO (Address Poisoning - Trilha Completa de 9 Nós) ---
+const POISONING_ELEMENTS: cytoscape.ElementDefinition[] = [
+  // 1. Vítima envia US$ 143.129,83 em USDT
+  {
+    group: "nodes",
+    data: {
+      id: "psn_victim",
+      name: "Vítima · 0x9812…A12b\nUS$ 143.129,83",
+      label: "0x9812…A12b (Vítima)",
+      size: 40,
+      fade: 1,
+      depth: 0,
+      dirty_usd: 143130,
+      held_usd: 0,
+      address: "0x981298374192837419283741928374192837A12b",
+      state: "passed",
+    },
+    classes: "origin passed",
+  },
+  // 2. Endereço Clonado / Envenenado (Golpista)
+  {
+    group: "nodes",
+    data: {
+      id: "psn_fake",
+      name: "Golpista (Clone 18/03)\n0x24Ee…3544\n[CONGELADA TETHER]",
+      label: "0x24Ee…3544 (Clone)",
+      size: 42,
+      fade: 1,
+      depth: 1,
+      dirty_usd: 143130,
+      held_usd: 0,
+      address: "0x24Ee192837461928374619283746192837463544",
+      state: "frozen",
+    },
+    classes: "marked frozen",
+  },
+  // 3. Troca DEX Uniswap (USDT vira 40,2 ETH)
+  {
+    group: "nodes",
+    data: {
+      id: "psn_swap",
+      name: "Uniswap V2 Pair\nTroca 3h27 depois (40,2 ETH)",
+      label: "Uniswap Troca (USDT→ETH)",
+      size: 28,
+      fade: 0.9,
+      depth: 2,
+      dirty_usd: 143130,
+      held_usd: 0,
+      address: "0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852",
+      state: "service",
+    },
+    classes: "service",
+  },
+  // 4. Carteira Nova da Camada 1
+  {
+    group: "nodes",
+    data: {
+      id: "psn_c1",
+      name: "Carteira Nova 18/03\n40,2 ETH (100% sujo)",
+      label: "Carteira Nova Camada 1",
+      size: 32,
+      fade: 1,
+      depth: 3,
+      dirty_usd: 143130,
+      held_usd: 0,
+      address: "0x51ab192837461928374619283746192837469911",
+      state: "passed",
+    },
+    classes: "passed",
+  },
+  // 5. Carteira de Concentração (300 ETH)
+  {
+    group: "nodes",
+    data: {
+      id: "psn_concentr",
+      name: "Concentração (300 ETH)\n16% vindo deste golpe",
+      label: "Concentração 300 ETH",
+      size: 36,
+      fade: 0.95,
+      depth: 4,
+      dirty_usd: 143130,
+      held_usd: 45000,
+      address: "0x88cc192837461928374619283746192837468822",
+      state: "partial",
+    },
+    classes: "partial",
+  },
+  // 6. Tornado Cash 100 ETH Vault (3 depósitos)
+  {
+    group: "nodes",
+    data: {
+      id: "psn_tornado",
+      name: "Tornado Cash 100 ETH\n3 depósitos no cofre",
+      label: "Tornado Cash 100 ETH",
+      size: 32,
+      fade: 1,
+      depth: 5,
+      dirty_usd: 143130,
+      held_usd: 0,
+      address: "0x12D66f87A04A9E220743712cE6d9bB1B5616B8Fc",
+      state: "mixer",
+    },
+    classes: "mixer",
+  },
+  // 7. Saques em Lote (10 carteiras agrupadas)
+  {
+    group: "nodes",
+    data: {
+      id: "psn_batch_withdraw",
+      name: "Saques em Lote (10 carteiras)\nMesmo horário e divisão",
+      label: "Saques em Lote (10 wallets)",
+      size: 30,
+      fade: 0.9,
+      depth: 6,
+      dirty_usd: 143130,
+      held_usd: 0,
+      address: "0x99aa192837461928374619283746192837467733",
+      state: "service",
+    },
+    classes: "service",
+  },
+  // 8. Entrada da Ponte Across
+  {
+    group: "nodes",
+    data: {
+      id: "psn_bridge",
+      name: "Ponte Across Protocol\n1.493 ETH encaminhados",
+      label: "Ponte Across (Base/Robinhood)",
+      size: 30,
+      fade: 0.9,
+      depth: 7,
+      dirty_usd: 143130,
+      held_usd: 0,
+      address: "0x5c7BCd6E7De5423a257D81B442095A1a6ced35C5",
+      state: "service",
+    },
+    classes: "service bridge",
+  },
+  // 9. Saque Retido no Mercado Bitcoin (Tentativa Fiat Pix)
+  {
+    group: "nodes",
+    data: {
+      id: "psn_mb",
+      name: "Mercado Bitcoin\nUS$ 68.130 [RETIDO MED]",
+      label: "Conta MB (Retido Pix)",
+      size: 34,
+      fade: 1,
+      depth: 4,
+      dirty_usd: 68130,
+      held_usd: 68130,
+      address: "0x55cc192837461928374619283746192891919191",
+      state: "exchange_deposit",
+    },
+    classes: "exchange_deposit marked",
+  },
+  // 10. Saldo Parado na Polygon pós-travessia
+  {
+    group: "nodes",
+    data: {
+      id: "psn_polygon_parked",
+      name: "Polygon Parado\nUS$ 45.000",
+      label: "Polygon (Saldo Parado)",
+      size: 28,
+      fade: 1,
+      depth: 8,
+      dirty_usd: 45000,
+      held_usd: 45000,
+      address: "0x5c7BCd6E7De5423a257D81B442095A1a6ced35C5",
+      state: "parked",
+    },
+    classes: "parked",
+  },
+  // Arestas Caso 1
+  {
+    group: "edges",
+    data: { id: "psn_e1", source: "psn_victim", target: "psn_fake", amount_usd: 143130, width: 4.5, label: "Transferência por engano" },
+  },
+  {
+    group: "edges",
+    data: { id: "psn_e2", source: "psn_fake", target: "psn_swap", amount_usd: 143130, width: 4.5, label: "Troca 40,2 ETH (3h27)" },
+  },
+  {
+    group: "edges",
+    data: { id: "psn_e3", source: "psn_swap", target: "psn_c1", amount_usd: 143130, width: 4.5, label: "Repasse 40,2 ETH" },
+  },
+  {
+    group: "edges",
+    data: { id: "psn_e4", source: "psn_c1", target: "psn_concentr", amount_usd: 143130, width: 4.0, label: "Concentração 300 ETH" },
+  },
+  {
+    group: "edges",
+    data: { id: "psn_e5", source: "psn_concentr", target: "psn_tornado", amount_usd: 143130, width: 4.0, label: "3 depósitos 100 ETH" },
+  },
+  {
+    group: "edges",
+    data: { id: "psn_e6", source: "psn_tornado", target: "psn_batch_withdraw", amount_usd: 143130, width: 3.5, label: "Saques diários sincronizados" },
+  },
+  {
+    group: "edges",
+    data: { id: "psn_e7", source: "psn_batch_withdraw", target: "psn_bridge", amount_usd: 143130, width: 3.5, label: "Ponte entre redes" },
+    classes: "cross",
+  },
+  {
+    group: "edges",
+    data: { id: "psn_e8", source: "psn_c1", target: "psn_mb", amount_usd: 68130, width: 3.8, label: "US$ 68,1 mil (MB Retido)" },
+    classes: "hot onward",
+  },
+  {
+    group: "edges",
+    data: { id: "psn_e9", source: "psn_bridge", target: "psn_polygon_parked", amount_usd: 45000, width: 2.8, label: "Polygon (US$ 45k)" },
+  },
+];
+
+// --- DATASET CASO 5: TRON TETHER FREEZE (Rota Crítica de 559 carteiras do histórico) ---
+const TRON_ELEMENTS: cytoscape.ElementDefinition[] = [
+  // 1. Chegadas de fundos (30/09)
+  {
+    group: "nodes",
+    data: {
+      id: "tron_in1",
+      name: "Origem Aporte 1\nUS$ 25.000",
+      label: "Aporte 1 (US$ 25 mil)",
+      size: 26,
+      fade: 1,
+      depth: 0,
+      dirty_usd: 25000,
+      held_usd: 0,
+      address: "T9yD14Nj9j7xAB4dbGeiX9h8unkkhxuWwb",
+      state: "passed",
+    },
+    classes: "passed",
+  },
+  {
+    group: "nodes",
+    data: {
+      id: "tron_in2",
+      name: "Origem Aporte 2\nUS$ 50.000",
+      label: "Aporte 2 (US$ 50 mil)",
+      size: 30,
+      fade: 1,
+      depth: 0,
+      dirty_usd: 50000,
+      held_usd: 0,
+      address: "TAUN6FwrnwwmaeqYcckffC7wYmbaCp6S88",
+      state: "passed",
+    },
+    classes: "passed",
+  },
+  // 2. Carteira do Golpista (Congelada pela Tether com saldo 0)
+  {
+    group: "nodes",
+    data: {
+      id: "tron_origem",
+      name: "TRON · THbQ…788\nUS$ 75.000 [CONGELADA]",
+      label: "THbQ…788 (Tether Blacklist)",
+      size: 42,
+      fade: 1,
+      depth: 1,
+      dirty_usd: 75000,
+      held_usd: 0,
+      address: "THbQpQv88899911122233344455566677788",
+      state: "frozen",
+    },
+    classes: "origin marked frozen",
+  },
+  // 3. Envios menores para serviços de alto volume (30/09 a 06/10 - US$ 13,9 mil)
+  {
+    group: "nodes",
+    data: {
+      id: "tron_svc1",
+      name: "Serviço Alto Volume A\nUS$ 6.200 (240 peers)",
+      label: "Serviço Volume A",
+      size: 24,
+      fade: 0.8,
+      depth: 2,
+      dirty_usd: 6200,
+      held_usd: 0,
+      address: "TLyqzvaHpBF9y7xAB4dbGeiX9h8unkkhxuW",
+      state: "service",
+    },
+    classes: "service",
+  },
+  {
+    group: "nodes",
+    data: {
+      id: "tron_svc2",
+      name: "Serviço Alto Volume B\nUS$ 4.800 (185 peers)",
+      label: "Serviço Volume B",
+      size: 24,
+      fade: 0.8,
+      depth: 2,
+      dirty_usd: 4800,
+      held_usd: 0,
+      address: "TKzvaHpBF9y7xAB4dbGeiX9h8unkkhxuWwb",
+      state: "service",
+    },
+    classes: "service",
+  },
+  {
+    group: "nodes",
+    data: {
+      id: "tron_dest3",
+      name: "Destino Secundário\nUS$ 2.900",
+      label: "Destino Parcial",
+      size: 22,
+      fade: 0.8,
+      depth: 2,
+      dirty_usd: 2900,
+      held_usd: 2900,
+      address: "TXzAB4dbGeiX9h8unkkhxuWwb14Nj9j7xA",
+      state: "parked",
+    },
+    classes: "parked",
+  },
+  // 4. Carteira Intermediária rápida (08/10 15:53 - 14 min antes do saque)
+  {
+    group: "nodes",
+    data: {
+      id: "tron_interm",
+      name: "Intermediária 14 min\nUS$ 61.044",
+      label: "Intermediária rápida",
+      size: 32,
+      fade: 1,
+      depth: 2,
+      dirty_usd: 61044,
+      held_usd: 0,
+      address: "TInterm88899911122233344455566677788",
+      state: "passed",
+    },
+    classes: "passed",
+  },
+  // 5. Conta de depósito de cliente HTX (08/10 16:07 - 2h antes do bloqueio da Tether)
+  {
+    group: "nodes",
+    data: {
+      id: "tron_htx_deposit",
+      name: "Conta de Depósito HTX\nUS$ 60.857 [EM EXCHANGE]",
+      label: "Conta Depósito HTX (Cliente)",
+      size: 36,
+      fade: 1,
+      depth: 3,
+      dirty_usd: 60857,
+      held_usd: 60857,
+      address: "TDepHTX88899911122233344455566677788",
+      state: "exchange_deposit",
+    },
+    classes: "exchange_deposit marked",
+  },
+  // 6. Carteira principal HTX Hot Wallet
+  {
+    group: "nodes",
+    data: {
+      id: "tron_htx_main",
+      name: "HTX Hot Wallet Principal\nVarredura automática",
+      label: "HTX Main Wallet",
+      size: 30,
+      fade: 0.9,
+      depth: 4,
+      dirty_usd: 60857,
+      held_usd: 0,
+      address: "11111111111111111111111111111111",
+      state: "service",
+    },
+    classes: "service",
+  },
+  // Arestas Tron
+  {
+    group: "edges",
+    data: { id: "tr_e1", source: "tron_in1", target: "tron_origem", amount_usd: 25000, width: 3.2, label: "US$ 25 mil" },
+  },
+  {
+    group: "edges",
+    data: { id: "tr_e2", source: "tron_in2", target: "tron_origem", amount_usd: 50000, width: 4.2, label: "US$ 50 mil" },
+  },
+  {
+    group: "edges",
+    data: { id: "tr_e3", source: "tron_origem", target: "tron_svc1", amount_usd: 6200, width: 2.5, label: "US$ 6,2 mil" },
+  },
+  {
+    group: "edges",
+    data: { id: "tr_e4", source: "tron_origem", target: "tron_svc2", amount_usd: 4800, width: 2.2, label: "US$ 4,8 mil" },
+  },
+  {
+    group: "edges",
+    data: { id: "tr_e5", source: "tron_origem", target: "tron_dest3", amount_usd: 2900, width: 2.0, label: "US$ 2,9 mil" },
+  },
+  {
+    group: "edges",
+    data: { id: "tr_e6", source: "tron_origem", target: "tron_interm", amount_usd: 61044, width: 4.5, label: "US$ 61 mil (81%)" },
+    classes: "hot",
+  },
+  {
+    group: "edges",
+    data: { id: "tr_e7", source: "tron_interm", target: "tron_htx_deposit", amount_usd: 60857, width: 4.5, label: "US$ 60,8 mil" },
+    classes: "hot onward",
+  },
+  {
+    group: "edges",
+    data: { id: "tr_e8", source: "tron_htx_deposit", target: "tron_htx_main", amount_usd: 60857, width: 3.5, label: "Varredura interna" },
+  },
+];
+
 export function CytoscapeSpreadGraph({
-  chain = "bitcoin",
+  caseId = "binance-eth",
+  chain = "ethereum",
   onSelectNode,
 }: {
-  chain?: "ethereum" | "bitcoin";
+  caseId?: string;
+  chain?: "ethereum" | "bitcoin" | "tron" | "polygon";
   onSelectNode?: (node: NodeData | null) => void;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const cyRef = useRef<Core | null>(null);
   const [selectedNode, setSelectedNode] = useState<NodeData | null>(null);
-  const [currentView, setCurrentView] = useState<"auto" | "trail" | "full">("full");
+  const [currentView, setCurrentView] = useState<"auto" | "trail" | "full" | "withdrawals">("full");
 
   // Executa o layout idêntico ao dashboard da Spread
   const runLayout = useCallback(() => {
@@ -1096,7 +1826,16 @@ export function CytoscapeSpreadGraph({
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const elements = chain === "bitcoin" ? BTC_ELEMENTS : ETH_ELEMENTS;
+    const elements =
+      caseId === "binance-btc" || chain === "bitcoin"
+        ? BTC_ELEMENTS
+        : caseId === "bitget-caso-67"
+        ? BITGET_ELEMENTS
+        : caseId === "poisoning-case-1"
+        ? POISONING_ELEMENTS
+        : caseId === "tron-case-5" || chain === "tron"
+        ? TRON_ELEMENTS
+        : ETH_ELEMENTS;
 
     const cy = cytoscape({
       container: containerRef.current,
@@ -1235,6 +1974,20 @@ export function CytoscapeSpreadGraph({
             "target-arrow-color": "#38bdf8",
           },
         },
+        // Filtros de visualização
+        {
+          selector: ".view-dimmed",
+          style: {
+            opacity: 0.2,
+          },
+        },
+        {
+          selector: ".view-highlighted",
+          style: {
+            opacity: 1,
+            "z-index": 20,
+          },
+        },
       ] as any,
     });
 
@@ -1267,7 +2020,36 @@ export function CytoscapeSpreadGraph({
     return () => {
       cy.destroy();
     };
-  }, [chain, onSelectNode, runLayout]);
+  }, [caseId, chain, onSelectNode, runLayout]);
+
+  // Atualiza destaque baseado na visualização selecionada
+  useEffect(() => {
+    const cy = cyRef.current;
+    if (!cy) return;
+
+    if (currentView === "withdrawals") {
+      cy.batch(() => {
+        cy.elements().removeClass("view-dimmed view-highlighted");
+        const targets = cy.nodes(".exchange_deposit, .marked");
+        const predecessors = targets.predecessors();
+        const active = targets.union(predecessors);
+        cy.elements().difference(active).addClass("view-dimmed");
+        active.addClass("view-highlighted");
+      });
+    } else if (currentView === "trail") {
+      cy.batch(() => {
+        cy.elements().removeClass("view-dimmed view-highlighted");
+        const activeNodes = cy.nodes(".passed, .parked, .origin, .partial");
+        const activeEdges = activeNodes.connectedEdges();
+        const active = activeNodes.union(activeEdges);
+        cy.elements().difference(active).addClass("view-dimmed");
+      });
+    } else {
+      cy.batch(() => {
+        cy.elements().removeClass("view-dimmed view-highlighted");
+      });
+    }
+  }, [currentView]);
 
   const handleZoom = (delta: number) => {
     const cy = cyRef.current;
@@ -1354,6 +2136,18 @@ export function CytoscapeSpreadGraph({
             }`}
           >
             Completo
+          </button>
+          <button
+            type="button"
+            onClick={() => setCurrentView("withdrawals")}
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition ${
+              currentView === "withdrawals"
+                ? "bg-surface-2 text-brand font-bold border border-brand/50"
+                : "text-muted hover:text-white"
+            }`}
+            title="Destaca as rotas de depósito que levam até exchanges"
+          >
+            Rotas de saque
           </button>
         </div>
 

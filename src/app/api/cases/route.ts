@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { ETHEREUM_CASE, BITCOIN_CASE } from "@/lib/spread-engine";
+import { ALL_CASES } from "@/lib/spread-engine";
 
 export async function GET() {
   const SPREAD_API = process.env.SPREAD_API_URL || "http://127.0.0.1:5000";
@@ -22,37 +22,25 @@ export async function GET() {
     // Engine Flask local ainda não foi iniciado: fallback limpo e idêntico
   }
 
-  // Resposta padrão dos casos monitorados ao vivo
-  return NextResponse.json([
-    {
-      id: ETHEREUM_CASE.id,
-      network: "ethereum",
-      network_code: "ETH",
-      alias: ETHEREUM_CASE.name,
-      origin: ETHEREUM_CASE.origin,
-      amount_usd: ETHEREUM_CASE.amountUsd,
-      parked_usd: ETHEREUM_CASE.split.parkedUsd,
-      in_exchange_usd: ETHEREUM_CASE.split.inExchangeUsd,
-      ended_usd: ETHEREUM_CASE.split.endedUsd,
-      wallets: ETHEREUM_CASE.metrics.walletsCount,
+  // Resposta padrão com todos os casos disponíveis na Spread (vivos e históricos)
+  return NextResponse.json(
+    ALL_CASES.map((c) => ({
+      id: c.id,
+      network: c.chain,
+      network_code: c.chain === "ethereum" ? "ETH" : c.chain === "bitcoin" ? "BTC" : "TRX",
+      alias: c.name,
+      origin: c.origin,
+      is_live: c.isLive,
+      category: c.category,
+      amount_usd: c.amountUsd,
+      parked_usd: c.split.parkedUsd,
+      in_exchange_usd: c.split.inExchangeUsd,
+      ended_usd: c.split.endedUsd,
+      wallets: c.metrics.walletsCount,
+      visual_nodes: c.metrics.visualCriticalNodesCount || c.metrics.walletsCount,
+      layers: c.metrics.layersCount,
       status: "confirmed",
-      last_activity_ts: Math.floor(Date.now() / 1000 - 32400),
-      raw: ETHEREUM_CASE,
-    },
-    {
-      id: BITCOIN_CASE.id,
-      network: "bitcoin",
-      network_code: "BTC",
-      alias: BITCOIN_CASE.name,
-      origin: BITCOIN_CASE.origin,
-      amount_usd: BITCOIN_CASE.amountUsd,
-      parked_usd: BITCOIN_CASE.split.parkedUsd,
-      in_exchange_usd: BITCOIN_CASE.split.inExchangeUsd,
-      ended_usd: BITCOIN_CASE.split.endedUsd,
-      wallets: BITCOIN_CASE.metrics.walletsCount,
-      status: "confirmed",
-      last_activity_ts: Math.floor(Date.now() / 1000 - 72000),
-      raw: BITCOIN_CASE,
-    },
-  ]);
+      raw: c,
+    }))
+  );
 }
