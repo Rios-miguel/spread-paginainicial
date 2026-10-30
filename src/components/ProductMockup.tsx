@@ -183,13 +183,13 @@ export function ProductMockup() {
     <section id="produto" aria-labelledby="produto-title" className="relative bg-[linear-gradient(to_bottom,var(--color-ink)_0%,var(--color-ink)_55%,var(--color-paper)_55%)] pb-8">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <div className="reveal mx-auto max-w-2xl text-center">
-          <p className="font-mono text-xs uppercase tracking-[0.18em] text-brand">O produto</p>
+          <p className="font-mono text-xs uppercase tracking-[0.18em] text-brand">Inteligência Spread · antifraude</p>
           <h2 id="produto-title" className="mt-4 text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
             Veja o golpe se espalhar. <span className="text-gradient">Pare no saque.</span>
           </h2>
           <p className="mt-5 text-lg text-muted text-pretty">
-            Grafo ao vivo, score de cada carteira com o porquê e a fila de decisões da sua mesa de compliance, num só
-            painel.
+            O caminho do dinheiro de golpe, o score de cada carteira com o porquê e as tentativas de saque para a sua
+            exchange decidir, num só painel.
           </p>
         </div>
 

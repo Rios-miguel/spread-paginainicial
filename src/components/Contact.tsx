@@ -1,9 +1,9 @@
 import { LeadForm } from "./LeadForm";
 
 const audiences = [
-  { title: "Exchanges e VASPs", text: "Aviso no depósito e decisão de reter com evidência." },
+  { title: "Exchanges e PSAVs", text: "Travel Rule para a Res. BCB 520 e aviso de dinheiro de golpe no depósito." },
+  { title: "Corretoras e bancos de câmbio", text: "Travel Rule para as operações com ativos virtuais (Res. BCB 521)." },
   { title: "Bancos e fintechs", text: "Acompanhe o dinheiro do seu cliente depois que ele vira cripto." },
-  { title: "Emissores de stablecoin", text: "Flags verificáveis e Transfer Hook para barrar na rede." },
 ];
 
 export function Contact() {
@@ -20,8 +20,8 @@ export function Contact() {
             O golpe deixa rastro. <span className="text-gradient">A gente segue.</span>
           </h2>
           <p className="mt-5 max-w-lg text-lg text-muted text-pretty">
-            Em 30 minutos mostramos um golpe sendo rastreado ao vivo, do caso aberto ao saque retido, e como integrar
-            a API ao seu fluxo de PLD.
+            Em 30 minutos mostramos um saque com Travel Rule entre duas instituições, da cifragem dos dados à decisão do
+            compliance, e um golpe real seguido até a exchange.
           </p>
           <ul className="mt-10 space-y-5">
             {audiences.map((a) => (

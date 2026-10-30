@@ -1,7 +1,7 @@
 "use server";
 
 import { validateLead, type LeadErrors, type LeadValues } from "@/lib/lead";
-import { getSupabase } from "@/lib/supabase";
+import { getDb } from "@/lib/db";
 
 export type LeadState = {
   status: "idle" | "success" | "error";
@@ -10,7 +10,7 @@ export type LeadState = {
   values?: LeadValues;
 };
 
-/** Recebe o formulário de contato e grava o lead no Supabase (insert-only). */
+/** Recebe o formulário de contato e grava o lead no PostgreSQL da Spread (insert-only). */
 export async function submitLead(_prev: LeadState, formData: FormData): Promise<LeadState> {
   // honeypot: campo invisível que só robô preenche; finge sucesso para não dar pista
   const trap = formData.get("website");
@@ -28,27 +28,26 @@ export async function submitLead(_prev: LeadState, formData: FormData): Promise<
     return { status: "error", message: "Revise os campos destacados.", errors, values };
   }
 
-  const supabase = getSupabase();
-  if (!supabase) {
-    console.error("[lead] Supabase não configurado. Verifique SUPABASE_URL e SUPABASE_ANON_KEY nas variáveis de ambiente.");
-    return {
-      status: "error",
-      message: "Configuração do banco pendente. Adicione SUPABASE_URL e SUPABASE_ANON_KEY na Vercel e faça um Redeploy.",
-      values,
-    };
+  const db = getDb();
+  if (!db) {
+    console.error("[lead] banco não configurado. Verifique DATABASE_URL nas variáveis de ambiente.");
+    return { status: "error", message: "Não conseguimos enviar agora. Tente novamente em instantes.", values };
   }
 
-  // sem .select(): a chave anon não tem permissão de leitura, e nem precisa
-  const { error } = await supabase.from("leads").insert({ ...values, source: "landing" });
-
-  // 23505 = e-mail já cadastrado: para quem preencheu, o resultado é o mesmo
-  if (error && error.code !== "23505") {
-    console.error("[lead] falha ao inserir no Supabase:", error.code, error.message);
-    return {
-      status: "error",
-      message: error.message || "Não conseguimos enviar agora. Tente novamente em instantes.",
-      values,
-    };
+  try {
+    // sem RETURNING: o usuário do site não tem permissão de leitura, e nem precisa
+    await db.query("insert into leads (name, email, company, source) values ($1, $2, $3, 'landing')", [
+      values.name,
+      values.email,
+      values.company,
+    ]);
+  } catch (err) {
+    // 23505 = e-mail já cadastrado: para quem preencheu, o resultado é o mesmo
+    const code = (err as { code?: string }).code;
+    if (code !== "23505") {
+      console.error("[lead] falha ao inserir no banco:", code, (err as Error).message);
+      return { status: "error", message: "Não conseguimos enviar agora. Tente novamente em instantes.", values };
+    }
   }
 
   return { status: "success" };

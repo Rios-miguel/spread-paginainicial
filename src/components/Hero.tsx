@@ -17,17 +17,17 @@ export function Hero() {
       <div className="relative z-10 mx-auto max-w-5xl px-5 text-center sm:px-8">
         <p className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-4 py-1.5 font-mono text-xs tracking-wide text-brand-light">
           <span className="live-dot size-1.5 rounded-full bg-brand" aria-hidden="true" />
-          Rastro ao vivo na Solana · Pix → cripto
+          O golpe deixa rastro. A gente segue.
         </p>
 
         <h1 className="mx-auto mt-8 max-w-4xl text-4xl font-semibold leading-[1.08] tracking-tight text-balance sm:text-6xl lg:text-7xl">
-          Inteligência On-Chain para <span className="text-gradient">Compliance e Risco</span>
+          Compliance e inteligência para <span className="text-gradient">quem opera ativos virtuais</span>
         </h1>
 
         <p className="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-muted text-pretty sm:text-xl">
-          A Spread segue o dinheiro de golpe quando ele sai do Pix e vira cripto, e avisa a sua exchange{" "}
-          <strong className="font-medium text-white">antes do saque</strong>. Score proporcional, evidência verificável
-          e canal direto com o banco da vítima.
+          A Spread é uma empresa brasileira de tecnologia para compliance em criptoativos. Entregamos o Travel Rule que
+          o Banco Central exige e a inteligência que sinaliza o dinheiro de golpe para a sua instituição reter{" "}
+          <strong className="font-medium text-white">antes do saque</strong>.
         </p>
 
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -35,7 +35,7 @@ export function Hero() {
             href="#planos"
             className="inline-flex h-13 w-full items-center justify-center gap-2 rounded-full bg-neon-lime px-8 text-base font-semibold text-ink shadow-[0_0_0_1px_rgb(210_251_122/0.4),0_10px_40px_-8px_rgb(210_251_122/0.5)] transition hover:bg-[#bbf451] hover:shadow-[0_0_48px_rgb(210_251_122/0.65)] sm:w-auto"
           >
-            Ver Planos do Spread
+            Ver planos da Spread
             <svg viewBox="0 0 20 20" fill="currentColor" className="size-4" aria-hidden="true">
               <path fillRule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.64l-3.22-3.22a.75.75 0 1 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 1 1-1.06-1.06l3.22-3.22H3.75A.75.75 0 0 1 3 10Z" clipRule="evenodd" />
             </svg>
@@ -50,9 +50,9 @@ export function Hero() {
 
         <dl className="mx-auto mt-16 grid max-w-3xl grid-cols-1 gap-px overflow-hidden rounded-2xl border border-line bg-line text-left sm:grid-cols-3">
           {[
-            { k: "Aviso no saque", v: "1–3 s", d: "do depósito ao webhook" },
-            { k: "Score", v: "0–100%", d: "proporcional, nunca binário" },
-            { k: "Evidência", v: "On-chain", d: "Flag verificável por qualquer um" },
+            { k: "Antifraude", v: "US$ 113,6 mi", d: "seguidos num só caso, entre 17 golpes reais" },
+            { k: "Travel Rule", v: "96 saques/s", d: "processados no teste com 20 mil saques" },
+            { k: "Inteligência de mercado", v: "Sanções", d: "OFAC, congelamentos da Tether e da Circle e os principais mixers" },
           ].map((s) => (
             <div key={s.k} className="bg-ink/90 px-6 py-5">
               <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">{s.k}</dt>

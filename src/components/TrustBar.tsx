@@ -23,7 +23,7 @@ const chains: Chain[] = [
   },
   {
     name: "Bitcoin",
-    standard: "UTXO / Taproot",
+    standard: "UTXO",
     icon: (
       <svg {...iconProps} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M8 8h10a4 4 0 0 1 0 8H8z" />
@@ -34,7 +34,7 @@ const chains: Chain[] = [
   },
   {
     name: "Polygon",
-    standard: "PoS / zkEVM",
+    standard: "PoS",
     icon: (
       <svg {...iconProps} fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round">
         <path d="m11.5 12-5.5 3.2v6.4l5.5 3.2 5.5-3.2v-6.4z" />
@@ -53,7 +53,7 @@ const chains: Chain[] = [
   },
   {
     name: "Arbitrum",
-    standard: "Rollup Nitro",
+    standard: "Arbitrum One",
     icon: (
       <svg {...iconProps} fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round">
         <path d="M16 4.5 27.5 16 16 27.5 4.5 16z" />
@@ -62,12 +62,12 @@ const chains: Chain[] = [
     ),
   },
   {
-    name: "Avalanche",
-    standard: "Subnets / C-Chain",
+    name: "Tron",
+    standard: "TRC-20",
     icon: (
       <svg {...iconProps} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="16" cy="16" r="12" />
-        <path d="m16 9 6.5 12h-13z" />
+        <path d="M5 6.5 27 10.5 15.5 27z" />
+        <path d="m5 6.5 10.5 20.5M27 10.5l-11.5 5L5 6.5" />
       </svg>
     ),
   },
@@ -79,7 +79,7 @@ export function TrustBar() {
     <section aria-labelledby="trust-title" className="border-y border-line bg-ink-deep/60">
       <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8">
         <h2 id="trust-title" className="text-center font-mono text-xs uppercase tracking-[0.16em] text-muted">
-          Monitorando ativos em mais de <span className="text-white font-semibold">65 blockchains</span>
+          Antifraude rastreando em <span className="text-white font-semibold">8 redes</span> e expandindo
         </h2>
         <ul className="mt-8 grid grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-3 lg:grid-cols-6">
           {chains.map((chain) => (

@@ -1,8 +1,8 @@
 # Spread · Landing Page
 
-> Landing page institucional da **Spread** — infraestrutura de conformidade e rastreamento de fraudes on-chain (Pix para Cripto, Travel Rule e interceptação de saques).
+> Landing page institucional da **Spread**: Travel Rule para a Res. BCB 520/2025 (produto principal) e a inteligência antifraude que retém o saque do dinheiro de golpe.
 
-Construída com **Next.js (App Router)**, **Tailwind CSS v4**, **TypeScript**, integração opcional de leads com **Supabase** e pronta para deploy com 1 clique na **Vercel**.
+Construída com **Next.js (App Router)**, **Tailwind CSS v4**, **TypeScript**, leads gravados no **PostgreSQL** da Spread e pronta para deploy com 1 clique na **Vercel**.
 
 ---
 
@@ -28,7 +28,7 @@ Construída com **Next.js (App Router)**, **Tailwind CSS v4**, **TypeScript**, i
    ```bash
    cp .env.example .env.local
    ```
-   > 💡 **Nota:** Em modo de desenvolvimento, se você não preencher as chaves do Supabase, o formulário de contato funciona normalmente e registra o lead diretamente no terminal (console log), sem travar a tela.
+   > 💡 **Nota:** Em modo de desenvolvimento, se você não preencher `DATABASE_URL`, o formulário de contato funciona normalmente e registra o lead diretamente no terminal (console log), sem travar a tela.
 
 4. **Inicie o servidor de desenvolvimento**:
    ```bash
@@ -63,8 +63,7 @@ git push -u origin main
 2. Clique em **Add New → Project** e selecione o repositório `spread-landing`.
 3. O preset **Next.js** será detectado automaticamente.
 4. (Opcional) Adicione as variáveis de ambiente no painel da Vercel:
-   * `SUPABASE_URL`
-   * `SUPABASE_ANON_KEY`
+   * `DATABASE_URL`
 5. Clique em **Deploy**. A partir daí, qualquer push na branch `main` atualizará a página automaticamente.
 
 ---
@@ -89,20 +88,20 @@ Os tokens visuais ficam definidos em `src/app/globals.css` no bloco `@theme` (pa
 ## 🧩 Componentes da Página
 
 * **`Hero`**: Dobra principal de alto impacto com efeito de brilho e botões de conversão ("Agendar uma demo").
-* **`TrustBar`**: Faixa com as redes e ativos cobertos (Solana, Ethereum, Tron, Bitcoin, TON, USDC, USDT).
-* **`Features`**: Os 3 pilares de valor: Prevenção de Fraudes, Rastreamento em Tempo Real e Relatórios de Compliance.
+* **`TrustBar`**: Faixa com as redes lidas pelo antifraude (Bitcoin, Ethereum, Solana, Tron, TON, Arbitrum, Polygon e Robinhood Chain).
+* **`Features`**: Os 3 pilares: Travel Rule, Antifraude (reter o saque) e Compliance e auditoria.
 * **`ProductMockup`**: Demonstração visual do grafo de rastreio e painel de controle.
 * **`InteractiveNetworkGraph`**: Gráfico interativo simulando camadas de carteiras.
-* **`HowItWorks`**: Seção passo a passo com métricas reais e salvaguardas contra falsos positivos.
-* **`Pricing`**: Seção com os 2 planos institucionais ("Spread Antifraude" e "Spread Antifraude + Travel Rule") com precificação sob consulta e CTAs integrados ao console.
+* **`HowItWorks`**: Um saque com Travel Rule passo a passo, as salvaguardas e números do mercado.
+* **`Pricing`**: Os 2 planos ("Spread Travel Rule", o principal, e o módulo "Inteligência Spread · Antifraude", em desenvolvimento), com preço sob consulta e CTAs integrados ao console.
 * **`Login` (`/login`)**: Console de acesso com abas dinâmicas por produto, validação LEI ISO 17442, derivação local de chaves X25519 e preenchimento de teste (Sandbox).
 * **`Contact` / `LeadForm`**: Captação de leads B2B (anti-bot honeypot, validação corporativa e persistência).
 
 ---
 
-## 🗄️ Banco de Dados (Supabase Leads)
+## 🗄️ Banco de Dados (Leads no PostgreSQL)
 
 Para persistir os contatos em produção:
-1. No seu projeto do [Supabase](https://supabase.com), abra o **SQL Editor**.
-2. Execute o script contido em `supabase/migrations/0001_leads.sql`.
-3. O script ativa a política de **Row Level Security (RLS)** permitindo apenas inserções cegas de leads pela landing page.
+1. Crie o banco `site` e o usuário `site_landing` no PostgreSQL da Spread.
+2. Rode, como dono do banco, o script `db/0001_leads.sql`.
+3. O script dá ao `site_landing` apenas o INSERT das colunas do formulário: o site não lê, não altera e não apaga leads.
