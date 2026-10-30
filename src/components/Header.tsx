@@ -29,7 +29,19 @@ export function Header() {
           </ul>
         </nav>
 
-        <div className="flex items-center gap-4 justify-self-end">
+        <div className="flex items-center gap-3 sm:gap-4 justify-self-end">
+          {/* Botão Ao Vivo (Exploit Binance em tempo real) */}
+          <Link
+            href="/ao-vivo"
+            className="inline-flex h-9 items-center gap-1.5 rounded-full border border-brand/40 bg-brand/10 px-3 text-xs font-semibold text-brand-light transition hover:border-brand hover:bg-brand hover:text-ink sm:h-10 sm:px-4"
+          >
+            <span className="relative flex size-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand opacity-75"></span>
+              <span className="relative inline-flex size-2 rounded-full bg-brand"></span>
+            </span>
+            <span>Ao vivo</span>
+          </Link>
+
           {/* Botão de Login direto */}
           <Link
             href="/login"
