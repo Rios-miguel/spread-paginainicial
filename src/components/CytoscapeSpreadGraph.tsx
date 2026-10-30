@@ -1800,6 +1800,7 @@ export function CytoscapeSpreadGraph({
   const cyRef = useRef<Core | null>(null);
   const [selectedNode, setSelectedNode] = useState<NodeData | null>(null);
   const [currentView, setCurrentView] = useState<"auto" | "trail" | "full" | "withdrawals">("full");
+  const [showLegend, setShowLegend] = useState<boolean>(false);
 
   // Executa o layout idêntico ao dashboard da Spread
   const runLayout = useCallback(() => {
@@ -1807,18 +1808,22 @@ export function CytoscapeSpreadGraph({
     if (!cy) return;
 
     const roots = cy.nodes().filter((n) => n.data("depth") === 0);
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
 
     cy.layout({
       name: "breadthfirst",
       directed: true,
       roots: roots.nonempty() ? roots : undefined,
-      spacingFactor: 1.15,
+      spacingFactor: isMobile ? 1.05 : 1.15,
       animate: true,
-      animationDuration: 450,
+      animationDuration: 350,
       fit: true,
-      padding: 50,
+      padding: isMobile ? 24 : 50,
       // Gira para horizontal: X é a camada (profundidade), Y é a distribuição vertical
-      transform: (_node, p) => ({ x: p.y * 1.9, y: p.x * 0.62 }),
+      transform: (_node, p) => ({
+        x: p.y * (isMobile ? 1.4 : 1.9),
+        y: p.x * (isMobile ? 0.55 : 0.62),
+      }),
     } as cytoscape.BreadthFirstLayoutOptions).run();
   }, []);
 
@@ -1842,6 +1847,9 @@ export function CytoscapeSpreadGraph({
       elements,
       wheelSensitivity: 0.25,
       boxSelectionEnabled: false,
+      autoungrabify: true,
+      userPanningEnabled: true,
+      userZoomingEnabled: true,
       style: [
         // Nó padrão
         {
@@ -2067,16 +2075,16 @@ export function CytoscapeSpreadGraph({
   };
 
   return (
-    <div className="relative size-full min-h-[620px] rounded-2xl border border-line bg-[#0c1114] overflow-hidden">
+    <div className="relative size-full h-[520px] sm:h-[640px] rounded-2xl border border-line bg-[#0c1114] overflow-hidden select-none">
       {/* Container do Cytoscape */}
-      <div ref={containerRef} className="size-full min-h-[620px]" />
+      <div ref={containerRef} className="size-full" />
 
-      {/* Controles de Zoom e Visualização (Idênticos ao print 1 da Spread) */}
-      <div className="absolute top-4 right-4 z-20 flex items-center gap-2 rounded-xl border border-line bg-surface/90 p-1.5 backdrop-blur-md">
+      {/* Controles de Zoom e Visualização (Canto Superior Direito) */}
+      <div className="absolute top-3 right-3 z-20 flex items-center gap-1 sm:gap-1.5 rounded-xl border border-line bg-surface/90 p-1 sm:p-1.5 backdrop-blur-md shadow-lg">
         <button
           type="button"
           onClick={() => handleZoom(0.25)}
-          className="size-8 rounded-lg border border-line bg-surface-2 text-white hover:border-brand font-mono font-bold flex items-center justify-center"
+          className="size-7 sm:size-8 rounded-lg border border-line bg-surface-2 text-white hover:border-brand font-mono font-bold flex items-center justify-center text-xs sm:text-sm active:scale-95 transition"
           title="Zoom +"
         >
           +
@@ -2084,7 +2092,7 @@ export function CytoscapeSpreadGraph({
         <button
           type="button"
           onClick={() => handleZoom(-0.25)}
-          className="size-8 rounded-lg border border-line bg-surface-2 text-white hover:border-brand font-mono font-bold flex items-center justify-center"
+          className="size-7 sm:size-8 rounded-lg border border-line bg-surface-2 text-white hover:border-brand font-mono font-bold flex items-center justify-center text-xs sm:text-sm active:scale-95 transition"
           title="Zoom -"
         >
           −
@@ -2092,7 +2100,7 @@ export function CytoscapeSpreadGraph({
         <button
           type="button"
           onClick={handleFit}
-          className="h-8 px-3 rounded-lg border border-line bg-surface-2 text-xs font-medium text-white hover:border-brand"
+          className="h-7 sm:h-8 px-2 sm:px-3 rounded-lg border border-line bg-surface-2 text-[11px] sm:text-xs font-medium text-white hover:border-brand active:scale-95 transition flex items-center justify-center"
         >
           Ver tudo
         </button>
@@ -2101,35 +2109,38 @@ export function CytoscapeSpreadGraph({
         </span>
       </div>
 
-      {/* Seletor de Visão no Canto Inferior Esquerdo (Idêntico ao print 1) */}
-      <div className="absolute bottom-4 left-4 z-20 flex flex-col gap-3">
-        <div className="flex items-center gap-1 rounded-xl border border-line bg-surface/90 p-1 backdrop-blur-md">
+      {/* Barra Inferior: Modos de Visão + Botão de Alternar Legenda */}
+      <div className="absolute bottom-3 left-3 right-3 sm:right-auto sm:bottom-4 sm:left-4 z-20 flex items-center gap-2">
+        {/* Seletor de Visão Compacto e Responsivo */}
+        <div className="flex items-center gap-1 rounded-xl border border-line bg-surface/95 p-1 backdrop-blur-md shadow-xl overflow-x-auto no-scrollbar max-w-full">
           <button
             type="button"
             onClick={() => setCurrentView("auto")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition ${
+            className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-[11px] sm:text-xs font-medium transition whitespace-nowrap ${
               currentView === "auto"
                 ? "bg-surface-2 text-white font-bold border border-line"
                 : "text-muted hover:text-white"
             }`}
           >
-            Automática
+            <span className="sm:hidden">Auto</span>
+            <span className="hidden sm:inline">Automática</span>
           </button>
           <button
             type="button"
             onClick={() => setCurrentView("trail")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition ${
+            className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-[11px] sm:text-xs font-medium transition whitespace-nowrap ${
               currentView === "trail"
                 ? "bg-surface-2 text-white font-bold border border-line"
                 : "text-muted hover:text-white"
             }`}
           >
-            Rastro do caso
+            <span className="sm:hidden">Rastro</span>
+            <span className="hidden sm:inline">Rastro do caso</span>
           </button>
           <button
             type="button"
             onClick={() => setCurrentView("full")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition ${
+            className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-[11px] sm:text-xs font-medium transition whitespace-nowrap ${
               currentView === "full"
                 ? "bg-surface-2 text-white font-bold border border-line"
                 : "text-muted hover:text-white"
@@ -2140,19 +2151,51 @@ export function CytoscapeSpreadGraph({
           <button
             type="button"
             onClick={() => setCurrentView("withdrawals")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition ${
+            className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-[11px] sm:text-xs font-medium transition whitespace-nowrap ${
               currentView === "withdrawals"
                 ? "bg-surface-2 text-brand font-bold border border-brand/50"
                 : "text-muted hover:text-white"
             }`}
             title="Destaca as rotas de depósito que levam até exchanges"
           >
-            Rotas de saque
+            <span className="sm:hidden">Saques</span>
+            <span className="hidden sm:inline">Rotas de saque</span>
           </button>
         </div>
 
-        {/* Legenda Oficial Completa (Idêntica à imagem 1) */}
-        <div className="rounded-2xl border border-line bg-surface/90 p-4 backdrop-blur-md text-[11px] space-y-2.5 max-w-[280px] shadow-2xl">
+        {/* Botão de Alternar Legenda (Colapsável) */}
+        <button
+          type="button"
+          onClick={() => setShowLegend(!showLegend)}
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-[11px] sm:text-xs font-mono font-medium backdrop-blur-md shadow-xl transition shrink-0 ${
+            showLegend
+              ? "border-brand bg-brand/20 text-brand-light ring-1 ring-brand/30"
+              : "border-line bg-surface/90 text-muted hover:text-white"
+          }`}
+          title="Exibir ou ocultar legenda das cores e nós"
+        >
+          <span>🏷️</span>
+          <span className="hidden sm:inline font-semibold">Legenda</span>
+          <span className="text-[10px] font-bold">{showLegend ? "✕" : "▲"}</span>
+        </button>
+      </div>
+
+      {/* Gaveta / Modal de Legenda (Bottom Sheet no Mobile, Card Flutuante no Desktop) */}
+      {showLegend && (
+        <div className="fixed sm:absolute inset-x-3 bottom-16 sm:bottom-16 sm:left-4 z-30 max-h-[75vh] sm:max-h-[500px] overflow-y-auto sm:w-[290px] rounded-2xl border border-line bg-[#0e1418]/98 sm:bg-surface/95 p-4 backdrop-blur-2xl text-[11px] space-y-3 shadow-2xl animate-in fade-in slide-in-from-bottom-2 duration-150">
+          <div className="flex items-center justify-between pb-2 border-b border-line">
+            <span className="font-mono text-xs font-bold text-white flex items-center gap-1.5">
+              <span>🏷️</span> Legenda do Grafo
+            </span>
+            <button
+              type="button"
+              onClick={() => setShowLegend(false)}
+              className="text-muted hover:text-white font-mono text-xs px-1.5 py-0.5 rounded hover:bg-surface-2"
+            >
+              ✕ Fechar
+            </button>
+          </div>
+
           <div className="space-y-1.5">
             <div className="flex items-center gap-2">
               <span className="size-2.5 rounded-full bg-brand inline-block shrink-0" />
@@ -2188,7 +2231,7 @@ export function CytoscapeSpreadGraph({
             </div>
           </div>
 
-          <div className="pt-2 border-t border-line space-y-1">
+          <div className="pt-2 border-t border-line space-y-1.5">
             <span className="font-mono text-[10px] text-white uppercase block font-semibold">
               linhas: a moeda que passou
             </span>
@@ -2214,23 +2257,24 @@ export function CytoscapeSpreadGraph({
             </div>
           </div>
 
-          <p className="pt-1.5 text-[10px] text-muted border-t border-line leading-tight">
-            tamanho = valor do caso · cor mais fraca = menor % sujo · linha mais forte = mais dinheiro; o valor aparece nas maiores e ao passar o mouse
+          <p className="pt-2 text-[10px] text-muted border-t border-line leading-tight">
+            tamanho = valor do caso · cor mais fraca = menor % sujo · linha mais forte = mais dinheiro; o valor aparece nas maiores e ao tocar no nó
           </p>
         </div>
-      </div>
+      )}
 
-      {/* Card Flutuante de Inspeção ao Clicar no Nó */}
+      {/* Card Responsivo de Inspeção ao Tocar num Nó (Bottom Sheet no Mobile, Card Superior no Desktop) */}
       {selectedNode && (
-        <div className="absolute top-4 left-4 z-20 w-80 rounded-2xl border border-brand/50 bg-surface/95 p-5 shadow-2xl backdrop-blur-xl animate-in fade-in zoom-in-95 duration-150">
+        <div className="fixed sm:absolute inset-x-3 bottom-3 sm:bottom-auto sm:top-4 sm:left-4 z-30 sm:w-80 rounded-2xl border border-brand/60 bg-[#0e1418]/98 sm:bg-surface/95 p-4 sm:p-5 shadow-2xl backdrop-blur-2xl animate-in fade-in slide-in-from-bottom-4 sm:slide-in-from-top-2 duration-150">
           <div className="flex items-center justify-between border-b border-line pb-2.5">
-            <span className="font-mono text-xs text-brand uppercase font-bold">
+            <span className="font-mono text-xs text-brand uppercase font-bold flex items-center gap-1.5">
+              <span className="size-2 rounded-full bg-brand" />
               Camada {selectedNode.depth} · Carteira Selecionada
             </span>
             <button
               type="button"
               onClick={() => setSelectedNode(null)}
-              className="text-muted hover:text-white font-mono text-xs"
+              className="text-muted hover:text-white font-mono text-xs px-2 py-0.5 rounded hover:bg-surface-2"
             >
               ✕
             </button>
@@ -2238,7 +2282,9 @@ export function CytoscapeSpreadGraph({
           <div className="mt-3 space-y-2 font-mono text-xs">
             <div>
               <p className="text-[11px] text-muted">Endereço:</p>
-              <p className="text-white break-all font-semibold select-all">{selectedNode.address}</p>
+              <p className="text-white break-all font-semibold select-all text-[11px] sm:text-xs bg-surface-2/60 p-1.5 rounded-lg border border-line mt-0.5">
+                {selectedNode.address}
+              </p>
             </div>
             <div className="flex justify-between items-baseline pt-1">
               <span className="text-muted">Valor Total Recebido:</span>
@@ -2250,7 +2296,7 @@ export function CytoscapeSpreadGraph({
             </div>
             <div className="flex justify-between items-baseline">
               <span className="text-muted">Situação:</span>
-              <span className="text-white capitalize">{selectedNode.state}</span>
+              <span className="text-white capitalize font-semibold">{selectedNode.state}</span>
             </div>
           </div>
         </div>
