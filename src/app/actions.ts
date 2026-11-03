@@ -2,6 +2,8 @@
 
 import { validateLead, type LeadErrors, type LeadValues } from "@/lib/lead";
 import { getDb } from "@/lib/db";
+import { notifyNewLead } from "@/lib/notify";
+import { after } from "next/server";
 
 export type LeadState = {
   status: "idle" | "success" | "error";
@@ -41,6 +43,8 @@ export async function submitLead(_prev: LeadState, formData: FormData): Promise<
       values.email,
       values.company,
     ]);
+    // aviso ao time só para lead novo, depois da resposta: não atrasa quem preencheu
+    after(() => notifyNewLead(values));
   } catch (err) {
     // 23505 = e-mail já cadastrado: para quem preencheu, o resultado é o mesmo
     const code = (err as { code?: string }).code;
