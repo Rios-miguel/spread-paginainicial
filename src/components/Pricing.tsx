@@ -1,14 +1,12 @@
-import Link from "next/link";
+"use client";
 
-interface PlanFeature {
-  text: string;
-  highlight?: boolean;
-}
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 interface Plan {
   id: string;
   name: string;
-  badge: string;
+  badge?: string;
   tagColor: string;
   description: string;
   priceLabel: string;
@@ -16,201 +14,246 @@ interface Plan {
   isPopular?: boolean;
   buttonText: string;
   buttonHref: string;
-  features: PlanFeature[];
+  buttonNote: string;
 }
 
 const plans: Plan[] = [
   {
     id: "travel-rule",
     name: "Spread Travel Rule",
-    badge: "RES. BCB 520/2025 · ARTS. 44 E 91",
+    badge: "EM OPERAÇÃO",
     tagColor: "border-brand/40 bg-brand/10 text-brand-light",
     description:
-      "Para exchanges, corretoras e bancos que prestam serviços de ativos virtuais: a troca de informações que o Banco Central exige, com qualquer contraparte, e a trilha para a fiscalização.",
+      "A troca de informações que o Banco Central exige, com qualquer contraparte, e a trilha pronta para a fiscalização.",
     priceLabel: "Sob consulta",
-    priceSub: "Mensalidade · Dimensionada pelo volume de transferências da instituição",
+    priceSub: "Mensalidade · Pelo volume de transferências da instituição",
     isPopular: true,
-    buttonText: "Acessar Spread Travel Rule →",
+    buttonText: "Acessar Spread Travel Rule",
     buttonHref: "/login?product=travel-rule",
-    features: [
-      { text: "Informações do art. 44 em toda transferência, sem valor mínimo", highlight: true },
-      { text: "Contraparte autorizada (art. 91) conferida na lista oficial do BCB, atualizada todo dia", highlight: true },
-      { text: "Rede Spread e protocolo aberto TRP v3.2.1 (OpenVASP): fala com quem não é cliente" },
-      { text: "Conector no seu ambiente: dados pessoais cifrados de ponta a ponta (X25519 + ChaCha20-Poly1305)" },
-      { text: "Confirmação do beneficiário no seu cadastro e quarentena do depósito sem informação" },
-      { text: "Autodeclaração do cliente para carteira autocustodiada (art. 89, §1º)" },
-      { text: "Fila de comunicação ao Coaf: autocustodiada a partir de US$ 10 mil, prazo de 24 h" },
-      { text: "Console de compliance e trilha de auditoria por 5 anos (art. 45)" },
-      { text: "Testado com 20 mil saques e um processo do servidor derrubado: nada perdido nem duplicado" },
-    ],
+    buttonNote: "Acesso ao console para instituições clientes",
+  },
+  {
+    id: "motores",
+    name: "Spread Motores",
+    badge: "PRONTO PARA DIAGNÓSTICO",
+    tagColor: "border-neon-lime/40 bg-neon-lime/10 text-neon-lime",
+    description:
+      "Decide cada saque e cada depósito pelo perfil do cliente: aprova, retém ou bloqueia, com o motivo. Funciona com qualquer Travel Rule.",
+    priceLabel: "Sob consulta",
+    priceSub: "Mensalidade · Por faixa de decisões por mês",
+    buttonText: "Falar sobre os Motores",
+    buttonHref: "#contato",
+    buttonNote: "Diagnóstico em modo sombra sobre o histórico da instituição",
   },
   {
     id: "antifraude",
     name: "Inteligência Spread · Antifraude",
-    badge: "MÓDULO EM DESENVOLVIMENTO",
+    badge: "PRONTO PARA DIAGNÓSTICO",
     tagColor: "border-neon-cyan/40 bg-neon-cyan/10 text-neon-cyan",
     description:
-      "Sinaliza a carteira que recebeu dinheiro de golpe para a exchange reter o saque antes de o valor sumir. Oferecido aos clientes do Travel Rule.",
+      "Sinaliza a carteira que recebeu dinheiro de golpe para a exchange reter o saque antes de o valor sumir.",
     priceLabel: "Sob consulta",
-    priceSub: "Módulo opcional · Junto com o Spread Travel Rule",
-    buttonText: "Acessar Spread Antifraude →",
+    priceSub: "Módulo opcional · Junto com o Travel Rule ou os Motores",
+    buttonText: "Acessar Spread Antifraude",
     buttonHref: "/login?product=antifraude",
-    features: [
-      { text: "Aviso quando dinheiro de golpe chega a uma conta de depósito sua, antes do saque", highlight: true },
-      { text: "Score proporcional por carteira, com o caminho até a origem" },
-      { text: "8 redes: Bitcoin, Ethereum, Solana, Tron, TON, Arbitrum, Polygon e Robinhood Chain" },
-      { text: "Principais mixers no catálogo: Tornado Cash, Railgun, Privacy Pools, Privacy Cash, Tonnel e CoinJoin" },
-      { text: "Carteiras da lista de sanções da OFAC e congeladas pela Tether e pela Circle" },
-      { text: "API de risco: ok, alertar ou bloquear, nos limites que você define" },
-      { text: "Relatório do caso para pedir o congelamento à Tether e à Circle" },
-      { text: "Validado com 17 golpes reais, incluindo um hack de exchange de US$ 113,6 milhões" },
-    ],
+    buttonNote: "Em piloto com corretoras parceiras",
+  },
+  {
+    id: "validador",
+    name: "Spread Validador",
+    badge: "PROTÓTIPO",
+    tagColor: "border-white/20 bg-white/5 text-white/80",
+    description:
+      "Prova que a carteira autocustodiada é mesmo do cliente, com a assinatura da própria carteira, sem mover fundos.",
+    priceLabel: "Sob consulta",
+    priceSub: "Módulo opcional · Junto com o Travel Rule",
+    buttonText: "Falar sobre o Validador",
+    buttonHref: "#contato",
+    buttonNote: "Em protótipo: conversamos sobre o piloto",
   },
 ];
 
-export function Pricing() {
+const INTERVAL_MS = 6000;
+
+/** Quantos cards cabem lado a lado: 1 até 1024 px, 2 acima. */
+function usePerView() {
+  const [perView, setPerView] = useState(1);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const update = () => setPerView(mq.matches ? 2 : 1);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+  return perView;
+}
+
+function Arrow({ dir }: { dir: "left" | "right" }) {
   return (
-    <section id="planos" className="relative isolate overflow-hidden border-t border-line bg-ink py-24 sm:py-32">
-      {/* Luz ambiente de fundo */}
+    <svg viewBox="0 0 20 20" fill="currentColor" className={`size-4 ${dir === "left" ? "rotate-180" : ""}`} aria-hidden="true">
+      <path
+        fillRule="evenodd"
+        d="M3 10a.75.75 0 0 1 .75-.75h10.64l-3.22-3.22a.75.75 0 1 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 1 1-1.06-1.06l3.22-3.22H3.75A.75.75 0 0 1 3 10Z"
+        clipRule="evenodd"
+      />
+    </svg>
+  );
+}
+
+function PlanCard({ plan }: { plan: Plan }) {
+  return (
+    <div
+      className={`relative flex h-full flex-col rounded-3xl border p-8 transition-all duration-300 sm:p-10 ${
+        plan.isPopular
+          ? "border-brand/70 bg-gradient-to-b from-surface/90 via-surface to-ink shadow-[0_0_50px_-12px_rgb(242_106_27/0.35)]"
+          : "border-line bg-surface/60 hover:border-white/20 hover:bg-surface/90"
+      }`}
+    >
+      {/* sem selo, o espaço fica para os títulos dos cards lado a lado continuarem alinhados */}
+      {plan.badge ? (
+        <span
+          className={`mb-5 inline-flex w-fit items-center rounded-full border px-3 py-1 font-mono text-[11px] font-medium uppercase tracking-wider ${plan.tagColor}`}
+        >
+          {plan.badge}
+        </span>
+      ) : (
+        <span aria-hidden="true" className="mb-5 block h-[26px]" />
+      )}
+
+      <h3 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">{plan.name}</h3>
+      <p className="mt-3 flex-1 text-sm leading-relaxed text-muted sm:text-base">{plan.description}</p>
+
+      <div className="mt-8 rounded-2xl border border-line bg-ink/70 p-5">
+        <span className="font-mono text-3xl font-extrabold tracking-tight text-white sm:text-4xl">{plan.priceLabel}</span>
+        <p className="mt-1.5 text-xs text-muted">{plan.priceSub}</p>
+      </div>
+
+      <div className="mt-8">
+        <Link
+          href={plan.buttonHref}
+          className={`inline-flex h-13 w-full items-center justify-center gap-2 rounded-xl px-6 text-sm font-semibold transition-all duration-200 ${
+            plan.isPopular
+              ? "bg-neon-lime text-ink shadow-[0_0_24px_rgb(210_251_122/0.4)] hover:bg-[#bbf451] hover:shadow-[0_0_36px_rgb(210_251_122/0.6)]"
+              : "border border-line bg-surface-2 text-white hover:border-brand hover:bg-brand/10 hover:text-brand-light"
+          }`}
+        >
+          {plan.buttonText}
+          <Arrow dir="right" />
+        </Link>
+        <p className="mt-2.5 text-center text-[11px] text-muted">{plan.buttonNote}</p>
+      </div>
+    </div>
+  );
+}
+
+export function Pricing() {
+  const perView = usePerView();
+  const maxIndex = plans.length - perView;
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const current = Math.min(index, maxIndex);
+
+  useEffect(() => {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (paused || reduce) return;
+    const t = window.setTimeout(() => setIndex((i) => (Math.min(i, maxIndex) + 1) % (maxIndex + 1)), INTERVAL_MS);
+    return () => window.clearTimeout(t);
+  }, [current, paused, maxIndex]);
+
+  const go = (i: number) => setIndex((i + maxIndex + 1) % (maxIndex + 1));
+
+  return (
+    <section id="planos" className="relative isolate overflow-hidden border-t border-line bg-ink pt-24 pb-10 sm:pt-32 sm:pb-12">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute left-1/4 top-1/2 size-96 -translate-y-1/2 rounded-full bg-brand opacity-10 blur-[130px]" />
         <div className="absolute right-1/4 top-1/3 size-96 -translate-y-1/2 rounded-full bg-neon-lime opacity-10 blur-[130px]" />
       </div>
 
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        {/* Cabeçalho da seção */}
         <div className="mx-auto max-w-3xl text-center">
           <p className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-4 py-1.5 font-mono text-xs tracking-wide text-brand-light">
             <span className="live-dot size-1.5 rounded-full bg-brand" aria-hidden="true" />
             PLANOS INSTITUCIONAIS
           </p>
           <h2 className="mt-6 text-3xl font-semibold tracking-tight text-white sm:text-5xl">
-            Escolha a arquitetura sob medida para a sua instituição
+            Comece pela peça que você precisa hoje
           </h2>
           <p className="mt-5 text-base leading-relaxed text-muted sm:text-lg">
-            O Travel Rule para cumprir a norma do Banco Central e, junto dele, a inteligência da Spread para reter o
-            saque do dinheiro de golpe.
+            Cada produto é contratado sozinho ou junto com os outros. O preço é dimensionado pelo volume da sua
+            instituição.
           </p>
         </div>
 
-        {/* Grade de 2 Planos */}
-        <div className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-stretch">
-          {plans.map((plan) => (
-            <div
-              key={plan.id}
-              className={`relative flex flex-col justify-between rounded-3xl border p-8 transition-all duration-300 sm:p-10 ${
-                plan.isPopular
-                  ? "border-brand/70 bg-gradient-to-b from-surface/90 via-surface to-ink shadow-[0_0_50px_-12px_rgb(242_106_27/0.35)]"
-                  : "border-line bg-surface/60 hover:border-white/20 hover:bg-surface/90 hover:shadow-[0_0_35px_-12px_rgb(0_255_255/0.2)]"
-              }`}
+        <div
+          className="mt-14"
+          role="region"
+          aria-roledescription="carrossel"
+          aria-label="Produtos da Spread"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onFocus={() => setPaused(true)}
+          onBlur={() => setPaused(false)}
+        >
+          <div className="-mx-3 overflow-hidden pt-5">
+            <ul
+              className="flex transition-transform duration-700 ease-out motion-reduce:transition-none"
+              style={{ transform: `translateX(-${(current * 100) / perView}%)` }}
             >
-              {/* Selo de Destaque */}
-              {plan.isPopular && (
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-brand px-4 py-1 text-xs font-bold tracking-wide text-ink shadow-[0_0_20px_rgb(242_106_27/0.6)]">
-                    <svg viewBox="0 0 20 20" fill="currentColor" className="size-3.5" aria-hidden="true">
-                      <path
-                        fillRule="evenodd"
-                        d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    PRODUTO PRINCIPAL
-                  </span>
-                </div>
-              )}
-
-              <div>
-                {/* Badge do plano */}
-                <div className="flex items-center justify-between gap-4">
-                  <span
-                    className={`inline-flex items-center rounded-full border px-3 py-1 font-mono text-[11px] font-medium uppercase tracking-wider ${plan.tagColor}`}
+              {plans.map((plan, i) => {
+                const visible = i >= current && i < current + perView;
+                return (
+                  <li
+                    key={plan.id}
+                    className="shrink-0 basis-full px-3 lg:basis-1/2"
+                    aria-hidden={!visible}
+                    inert={!visible}
                   >
-                    {plan.badge}
-                  </span>
-                </div>
+                    <PlanCard plan={plan} />
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
 
-                {/* Título e descrição */}
-                <h3 className="mt-5 text-2xl font-bold tracking-tight text-white sm:text-3xl">{plan.name}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted sm:text-base">{plan.description}</p>
-
-                {/* Bloco de Preço */}
-                <div className="mt-8 rounded-2xl border border-line bg-ink/70 p-5 backdrop-blur-sm">
-                  <div className="flex items-baseline gap-2">
-                    <span className="font-mono text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-                      {plan.priceLabel}
-                    </span>
-                  </div>
-                  <p className="mt-1.5 text-xs text-muted">{plan.priceSub}</p>
-                </div>
-
-                {/* Lista de Recursos */}
-                <div className="mt-8 space-y-3.5">
-                  <p className="font-mono text-xs uppercase tracking-wider text-muted">Recursos inclusos:</p>
-                  <ul className="space-y-3 text-sm">
-                    {plan.features.map((feature, i) => (
-                      <li key={i} className="flex items-start gap-3">
-                        <div
-                          className={`mt-1 flex size-4 shrink-0 items-center justify-center rounded-full ${
-                            feature.highlight
-                              ? "bg-neon-lime text-ink"
-                              : plan.isPopular
-                              ? "bg-brand text-ink"
-                              : "bg-neon-cyan text-ink"
-                          }`}
-                        >
-                          <svg viewBox="0 0 16 16" fill="currentColor" className="size-3" aria-hidden="true">
-                            <path
-                              fillRule="evenodd"
-                              d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                        </div>
-                        <span className={feature.highlight ? "font-semibold text-white" : "text-muted"}>
-                          {feature.text}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              {/* Botão de Ação que direciona para a aba de Login */}
-              <div className="mt-10 pt-6 border-t border-line">
-                <Link
-                  href={plan.buttonHref}
-                  className={`inline-flex h-13 w-full items-center justify-center gap-2 rounded-xl px-6 text-sm font-semibold transition-all duration-200 ${
-                    plan.isPopular
-                      ? "bg-neon-lime text-ink shadow-[0_0_24px_rgb(210_251_122/0.4)] hover:bg-[#bbf451] hover:shadow-[0_0_36px_rgb(210_251_122/0.6)]"
-                      : "border border-line bg-surface-2 text-white hover:border-brand hover:bg-brand/10 hover:text-brand-light"
-                  }`}
-                >
-                  {plan.buttonText}
-                  <svg viewBox="0 0 20 20" fill="currentColor" className="size-4" aria-hidden="true">
-                    <path
-                      fillRule="evenodd"
-                      d="M3 10a.75.75 0 0 1 .75-.75h10.64l-3.22-3.22a.75.75 0 1 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 1 1-1.06-1.06l3.22-3.22H3.75A.75.75 0 0 1 3 10Z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </Link>
-                <p className="mt-2.5 text-center text-[11px] text-muted">
-                  Acesso ao console para instituições clientes
-                </p>
-              </div>
+          <div className="mt-8 flex items-center justify-center gap-4">
+            <button
+              type="button"
+              onClick={() => go(current - 1)}
+              aria-label="Produto anterior"
+              className="grid size-10 place-items-center rounded-full border border-line bg-surface/70 text-white transition hover:border-brand hover:text-brand-light"
+            >
+              <Arrow dir="left" />
+            </button>
+            <div className="flex items-center gap-2">
+              {Array.from({ length: maxIndex + 1 }, (_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => go(i)}
+                  aria-label={`Ir para ${plans[i].name}`}
+                  aria-current={i === current}
+                  className={`h-1.5 rounded-full transition-all ${i === current ? "w-6 bg-brand" : "w-1.5 bg-white/25 hover:bg-white/50"}`}
+                />
+              ))}
             </div>
-          ))}
+            <button
+              type="button"
+              onClick={() => go(current + 1)}
+              aria-label="Próximo produto"
+              className="grid size-10 place-items-center rounded-full border border-line bg-surface/70 text-white transition hover:border-brand hover:text-brand-light"
+            >
+              <Arrow dir="right" />
+            </button>
+          </div>
         </div>
 
-        {/* Rodapé explicativo da contratação */}
-        <div className="mt-14 rounded-2xl border border-line bg-surface/40 p-6 sm:p-8 backdrop-blur-md">
+        <div className="mt-12 rounded-2xl border border-line bg-surface/40 p-6 sm:p-8">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-2xl">
               <h4 className="text-base font-semibold text-white">Quer ver funcionando na sua operação?</h4>
               <p className="mt-1 text-sm text-muted">
-                Para exchanges, corretoras e bancos de câmbio que prestam serviços de ativos virtuais. Mostramos um saque
-                entre duas instituições e dimensionamos o plano pelo volume da sua instituição.
+                Para exchanges, corretoras e bancos que prestam serviços de ativos virtuais. Mostramos um saque entre
+                duas instituições e dimensionamos o plano pelo volume da sua instituição.
               </p>
             </div>
             <div className="flex shrink-0 flex-wrap items-center gap-3">

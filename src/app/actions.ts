@@ -4,6 +4,8 @@ import { validateLead, type LeadErrors, type LeadValues } from "@/lib/lead";
 import { getDb } from "@/lib/db";
 import { notifyNewLead } from "@/lib/notify";
 import { after } from "next/server";
+import { headers } from "next/headers";
+import { checkRateLimit, clientIp } from "@/lib/ratelimit";
 
 export type LeadState = {
   status: "idle" | "success" | "error";
@@ -14,6 +16,11 @@ export type LeadState = {
 
 /** Recebe o formulário de contato e grava o lead no PostgreSQL da Spread (insert-only). */
 export async function submitLead(_prev: LeadState, formData: FormData): Promise<LeadState> {
+  // limite por IP e global antes de qualquer trabalho: segura flood no banco e na cota do Brevo
+  if (!checkRateLimit(clientIp(await headers()))) {
+    return { status: "error", message: "Muitas tentativas seguidas. Aguarde alguns minutos e tente de novo." };
+  }
+
   // honeypot: campo invisível que só robô preenche; finge sucesso para não dar pista
   const trap = formData.get("website");
   if (typeof trap === "string" && trap.trim() !== "") {

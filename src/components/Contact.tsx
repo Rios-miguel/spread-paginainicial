@@ -8,7 +8,7 @@ const audiences = [
 
 export function Contact() {
   return (
-    <section id="contato" aria-labelledby="contato-title" className="relative isolate overflow-hidden py-24 sm:py-32">
+    <section id="contato" aria-labelledby="contato-title" className="relative isolate overflow-hidden pt-12 pb-24 sm:pt-16 sm:pb-32">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute -left-40 top-1/4 size-[30rem] rounded-full bg-brand opacity-20 blur-[120px]" />
         <div className="absolute right-0 bottom-0 size-[22rem] rounded-full bg-brand-glow opacity-10 blur-[120px]" />

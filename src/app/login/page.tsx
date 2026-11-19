@@ -116,7 +116,7 @@ function LoginFormContent() {
                   <span className="mt-0.5 flex size-2 rounded-full bg-neon-cyan shrink-0 animate-pulse" />
                   <p className="text-xs text-muted leading-relaxed">
                     <strong className="text-white">Spread Antifraude:</strong> aviso quando dinheiro de golpe chega a
-                    uma conta de depósito, com score proporcional, para a exchange reter o saque. Módulo em desenvolvimento.
+                    uma conta de depósito, com score proporcional, para a exchange reter o saque. Pronto para diagnóstico.
                   </p>
                 </div>
               ) : (

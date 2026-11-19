@@ -3,7 +3,7 @@ import { Logo } from "./Logo";
 
 const nav = [
   { href: "#solucao", label: "Solução" },
-  { href: "#produto", label: "Produto" },
+  { href: "#produto", label: "Produtos" },
   { href: "#como-funciona", label: "Como funciona" },
   { href: "#planos", label: "Planos" },
   { href: "#contato", label: "Contato" },
@@ -11,7 +11,7 @@ const nav = [
 
 export function Header() {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-ink/75 backdrop-blur-md">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-ink shadow-[0_1px_0_rgb(0_0_0/0.4)]">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-5 sm:px-8 lg:grid lg:grid-cols-[1fr_auto_1fr]">
         <a href="#topo" className="justify-self-start rounded-md" aria-label="Spread, voltar ao topo">
           <Logo />

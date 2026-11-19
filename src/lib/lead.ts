@@ -18,6 +18,9 @@ export const EMAIL_PATTERN = `[^@\\s]+@[^@\\s]+\\.[^@\\s]{2,}`;
 
 const emailRe = new RegExp(`^${EMAIL_PATTERN}$`, "i");
 
+/** Caracteres de controle (NUL, ESC, DEL...) não têm lugar em nome, e-mail ou empresa. */
+const CONTROL_RE = /[\u0000-\u001f\u007f-\u009f]/g;
+
 export function validateLead(raw: Partial<Record<LeadField, unknown>>): { values: LeadValues; errors: LeadErrors } {
   const values: LeadValues = {
     name: typeof raw.name === "string" ? raw.name.trim().replace(/\s+/g, " ") : "",
@@ -25,6 +28,10 @@ export function validateLead(raw: Partial<Record<LeadField, unknown>>): { values
     company: typeof raw.company === "string" ? raw.company.trim().replace(/\s+/g, " ") : "",
   };
   const errors: LeadErrors = {};
+
+  for (const field of ["name", "email", "company"] as const) {
+    values[field] = values[field].replace(CONTROL_RE, "");
+  }
 
   if (values.name.length < LIMITS.name.min || values.name.length > LIMITS.name.max) {
     errors.name = "Informe seu nome completo.";

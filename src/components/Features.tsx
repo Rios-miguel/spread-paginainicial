@@ -1,85 +1,81 @@
-import type { ReactNode } from "react";
-
-type Pillar = {
+type Piece = {
   tag: string;
   title: string;
   lead: string;
-  points: string[];
-  icon: ReactNode;
+  talks: string[];
+  alone: string;
   hoverBorder: string;
   hoverShadow: string;
-  iconGlow: string;
   tagColor: string;
   bulletColor: string;
+  accent: string;
 };
 
-const icon = "size-6";
-
-const pillars: Pillar[] = [
+/** Cada peça da esteira: o que entrega, com quem conversa e o que faz sozinha. */
+const pieces: Piece[] = [
   {
     tag: "01",
     title: "Travel Rule",
-    lead: "As informações de remetente e beneficiário que o Banco Central exige, em toda transferência e com qualquer contraparte.",
-    points: [
-      "Rede Spread e protocolo aberto TRP (OpenVASP): a outra ponta não precisa ser cliente",
-      "Confere se a contraparte é autorizada pelo BCB, com a lista oficial atualizada todo dia",
-      "Conector no seu ambiente: dados pessoais cifrados de ponta a ponta, a Spread não lê",
+    lead: "Troca as informações de remetente e beneficiário com a outra instituição, como o Banco Central exige.",
+    talks: [
+      "Pede a decisão dos Motores antes de o saque seguir para outra exchange",
+      "Recebe do Validador a prova de que a carteira autocustodiada é do cliente",
+      "Leva o risco da carteira, vindo do Antifraude, para a mesma decisão",
     ],
+    alone: "Sozinho, cumpre a norma: confere a contraparte no BCB e troca os dados com qualquer instituição.",
     hoverBorder: "hover:border-brand",
     hoverShadow: "hover:shadow-[0_0_32px_-6px_rgb(242_106_27/0.45)]",
-    iconGlow: "border-brand/25 bg-brand/10 text-brand group-hover:bg-brand group-hover:text-ink",
     tagColor: "group-hover:text-brand",
     bulletColor: "bg-brand",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={icon} aria-hidden="true">
-        <path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.4 7.5 9.5 4.3-1.1 7.5-4.9 7.5-9.5V6z" />
-        <path d="m9 12 2 2 4-4" />
-      </svg>
-    ),
+    accent: "text-brand-light",
   },
   {
     tag: "02",
-    title: "Antifraude: reter o saque",
-    lead: "Sinaliza a carteira que recebeu dinheiro de golpe para a exchange reter o saque a tempo.",
-    points: [
-      "Aviso quando o dinheiro chega a uma conta de depósito sua, com o caminho até a origem",
-      "Score proporcional: quem recebeu um pouco misturado a dinheiro limpo não é tratado como golpista",
-      "Atravessa os principais mixers, pontes e swaps; módulo em desenvolvimento, validado com 17 golpes reais",
+    title: "Motores",
+    lead: "Decidem cada saque e cada depósito pelo perfil do cliente: aprovam, retêm ou bloqueiam, com o motivo.",
+    talks: [
+      "Respondem ao Travel Rule se o saque pode seguir",
+      "Usam o score do Antifraude como mais um sinal da decisão",
+      "Mandam ao compliance a fila do que foi retido, já explicada",
     ],
-    hoverBorder: "hover:border-neon-cyan",
-    hoverShadow: "hover:shadow-[0_0_32px_-6px_rgb(0_255_255/0.45)]",
-    iconGlow: "border-neon-cyan/25 bg-neon-cyan/10 text-neon-cyan group-hover:bg-neon-cyan group-hover:text-ink",
-    tagColor: "group-hover:text-neon-cyan",
-    bulletColor: "bg-neon-cyan",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={icon} aria-hidden="true">
-        <circle cx="5" cy="12" r="2.2" />
-        <circle cx="18" cy="5.5" r="2.2" />
-        <circle cx="18" cy="18.5" r="2.2" />
-        <path d="M7 11 16 6.5M7 13l9 4.5" />
-      </svg>
-    ),
+    alone: "Sozinhos, funcionam com o Travel Rule de qualquer fornecedor: Spread, Notabene, Sumsub ou outro.",
+    hoverBorder: "hover:border-neon-lime",
+    hoverShadow: "hover:shadow-[0_0_32px_-6px_rgb(210_251_122/0.45)]",
+    tagColor: "group-hover:text-neon-lime",
+    bulletColor: "bg-neon-lime",
+    accent: "text-neon-lime",
   },
   {
     tag: "03",
-    title: "Compliance e auditoria",
-    lead: "Cada decisão registrada com o motivo, pronta para a fiscalização.",
-    points: [
-      "Fila de comunicação ao Coaf: autocustodiada a partir de US$ 10 mil, prazo de 24 h",
-      "Trilha de auditoria guardada por 5 anos, sem dado pessoal na Spread",
-      "Relatório do caso de golpe pronto para pedir o congelamento à Tether e à Circle",
+    title: "Antifraude",
+    lead: "Segue o dinheiro de golpe na blockchain e sinaliza a carteira que o recebeu, antes do saque.",
+    talks: [
+      "Entrega aos Motores o score da carteira e o caminho até a origem",
+      "Avisa quando o dinheiro chega a uma conta de depósito da exchange",
+      "Monta o relatório do caso para pedir o congelamento à Tether e à Circle",
     ],
-    hoverBorder: "hover:border-neon-lime",
-    hoverShadow: "hover:shadow-[0_0_32px_-6px_rgb(210_251_122/0.45)]",
-    iconGlow: "border-neon-lime/25 bg-neon-lime/10 text-neon-lime group-hover:bg-neon-lime group-hover:text-ink",
-    tagColor: "group-hover:text-neon-lime",
-    bulletColor: "bg-neon-lime",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={icon} aria-hidden="true">
-        <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
-        <path d="M14 3v5h5M9 13h6M9 17h4" />
-      </svg>
-    ),
+    alone: "Sozinho, é uma API de risco: ok, alertar ou bloquear, nos limites que você define.",
+    hoverBorder: "hover:border-neon-cyan",
+    hoverShadow: "hover:shadow-[0_0_32px_-6px_rgb(0_255_255/0.45)]",
+    tagColor: "group-hover:text-neon-cyan",
+    bulletColor: "bg-neon-cyan",
+    accent: "text-neon-cyan",
+  },
+  {
+    tag: "04",
+    title: "Validador",
+    lead: "Prova que a carteira autocustodiada é mesmo do cliente, com a assinatura da própria carteira.",
+    talks: [
+      "Anexa a prova ao saque no Travel Rule e à trilha de auditoria",
+      "Dá aos Motores a certeza de para quem o dinheiro vai",
+      "Recusa a prova feita para outro saque ou outra instituição",
+    ],
+    alone: "Sozinho, valida carteiras em EVM, Tron, Solana e Bitcoin para qualquer fluxo da instituição.",
+    hoverBorder: "hover:border-white/40",
+    hoverShadow: "hover:shadow-[0_0_32px_-6px_rgb(255_255_255/0.25)]",
+    tagColor: "group-hover:text-white",
+    bulletColor: "bg-white/70",
+    accent: "text-white",
   },
 ];
 
@@ -90,36 +86,42 @@ export function Features() {
         <div className="reveal mx-auto max-w-2xl text-center">
           <p className="font-mono text-xs uppercase tracking-[0.18em] text-brand">A solução</p>
           <h2 id="solucao-title" className="mt-4 text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
-            Uma integração para cumprir a norma <span className="text-gradient">e reter o golpe</span>
+            Um ecossistema pensado contra fraudes <span className="text-gradient">para reter o golpe</span>
           </h2>
           <p className="mt-5 text-lg text-muted text-pretty">
-            O Travel Rule que o Banco Central exige, e a inteligência da Spread para o dinheiro de golpe que vira
-            cripto. Três pilares para a sua equipe de compliance.
+            Quatro peças que conversam entre si: cada uma passa à seguinte o que sabe, e a decisão sai com tudo junto.
+            E cada uma funciona sozinha, para você começar pela que precisa hoje.
           </p>
         </div>
 
-        <ul className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3">
-          {pillars.map((p) => (
+        <ul className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
+          {pieces.map((p) => (
             <li
               key={p.title}
-              className={`reveal group relative flex flex-col rounded-2xl border border-white/[0.06] bg-surface p-8 transition duration-300 hover:-translate-y-1 ${p.hoverBorder} ${p.hoverShadow}`}
+              className={`reveal group relative flex flex-col rounded-2xl border border-white/[0.06] bg-surface p-7 transition duration-300 hover:-translate-y-1 ${p.hoverBorder} ${p.hoverShadow}`}
             >
-              <div className="flex items-center justify-between">
-                <span className={`grid size-12 place-items-center rounded-xl border transition ${p.iconGlow}`}>
-                  {p.icon}
-                </span>
+              <div className="flex items-baseline justify-between gap-4">
+                <h3 className="text-xl font-semibold">{p.title}</h3>
                 <span className={`font-mono text-sm text-white/25 transition ${p.tagColor}`}>{p.tag}</span>
               </div>
-              <h3 className="mt-7 text-xl font-semibold">{p.title}</h3>
-              <p className="mt-2 text-muted">{p.lead}</p>
-              <ul className="mt-6 space-y-3 border-t border-white/[0.06] pt-6 text-sm text-white/80">
-                {p.points.map((pt) => (
-                  <li key={pt} className="flex gap-3">
+              <p className="mt-3 text-[15px] text-muted">{p.lead}</p>
+
+              <p className="mt-6 border-t border-white/[0.06] pt-5 font-mono text-[11px] uppercase tracking-wider text-muted">
+                Conversa com as outras peças
+              </p>
+              <ul className="mt-3 space-y-3 text-sm text-white/80">
+                {p.talks.map((t) => (
+                  <li key={t} className="flex gap-3">
                     <span className={`mt-2 size-1.5 shrink-0 rounded-full ${p.bulletColor}`} aria-hidden="true" />
-                    {pt}
+                    {t}
                   </li>
                 ))}
               </ul>
+
+              <p className="mt-auto pt-6 text-sm">
+                <span className={`font-semibold ${p.accent}`}>Independente. </span>
+                <span className="text-white/80">{p.alone}</span>
+              </p>
             </li>
           ))}
         </ul>
