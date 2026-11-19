@@ -1,3 +1,4 @@
+import { HeroFacts } from "./HeroFacts";
 import { InteractiveNetworkGraph } from "./InteractiveNetworkGraph";
 
 export function Hero() {
@@ -25,9 +26,9 @@ export function Hero() {
         </h1>
 
         <p className="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-muted text-pretty sm:text-xl">
-          A Spread é uma empresa brasileira de tecnologia para compliance em criptoativos. Entregamos o Travel Rule que
-          o Banco Central exige e a inteligência que sinaliza o dinheiro de golpe para a sua instituição reter{" "}
-          <strong className="font-medium text-white">antes do saque</strong>.
+          A Spread é uma empresa brasileira de tecnologia para compliance em criptoativos. Entregamos um ecossistema
+          completo: uma inteligência que acompanha o dinheiro em todas as fases do fluxo financeiro e sinaliza a fraude
+          para <strong className="font-medium text-white">proteger a sua instituição</strong>.
         </p>
 
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -48,21 +49,7 @@ export function Hero() {
           </a>
         </div>
 
-        <dl className="mx-auto mt-16 grid max-w-3xl grid-cols-1 gap-px overflow-hidden rounded-2xl border border-line bg-line text-left sm:grid-cols-3">
-          {[
-            { k: "Antifraude", v: "US$ 113,6 mi", d: "seguidos num só caso, entre 17 golpes reais" },
-            { k: "Travel Rule", v: "96 saques/s", d: "processados no teste com 20 mil saques" },
-            { k: "Inteligência de mercado", v: "Sanções", d: "OFAC, congelamentos da Tether e da Circle e os principais mixers" },
-          ].map((s) => (
-            <div key={s.k} className="bg-ink/90 px-6 py-5">
-              <dt className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">{s.k}</dt>
-              <dd className="mt-1.5">
-                <span className="block text-2xl font-semibold text-white">{s.v}</span>
-                <span className="text-sm text-muted">{s.d}</span>
-              </dd>
-            </div>
-          ))}
-        </dl>
+        <HeroFacts />
       </div>
     </section>
   );

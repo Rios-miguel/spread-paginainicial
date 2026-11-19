@@ -8,13 +8,13 @@ export function Footer() {
         <div>
           <Logo holeColor="#0d1316" />
           <p className="mt-3 text-sm text-muted">
-            Travel Rule e antifraude para instituições que operam ativos virtuais.
+            Inteligência de compliance para instituições que operam ativos virtuais.
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-6 text-xs text-muted">
           <a href="#solucao" className="hover:text-white transition">Solução</a>
-          <a href="#produto" className="hover:text-white transition">Produto</a>
+          <a href="#produto" className="hover:text-white transition">Produtos</a>
           <a href="#planos" className="hover:text-white transition">Planos</a>
           <a href="#contato" className="hover:text-white transition">Contato</a>
           <Link href="/login" className="font-semibold text-brand-light hover:underline">
